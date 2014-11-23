@@ -11,7 +11,7 @@ public class OneToFiveFilter {
         value = 5;
         up = false;
     }
-    
+
     public OneToFiveFilter(String s) {
         if (s.equals("1")) {
             value = 1;
@@ -29,18 +29,16 @@ public class OneToFiveFilter {
 
             int v1 = Integer.parseInt(a[0]);
             int v2 = Integer.parseInt(a[1]);
-            
-            if (v1==1) {
+
+            if (v1 == 1) {
                 up = false;
                 value = v2;
-            }
-            else if (v2 == 5) {
+            } else if (v2 == 5) {
                 up = true;
-                value  = v1;
-            }
-            else
+                value = v1;
+            } else
                 Assert.fail();
-            
+
         }
     }
 

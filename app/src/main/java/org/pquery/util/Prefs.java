@@ -1,9 +1,12 @@
 package org.pquery.util;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
+
+import com.google.gson.Gson;
+
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.pquery.R;
@@ -13,16 +16,14 @@ import org.pquery.filter.CheckBoxesFilter;
 import org.pquery.filter.ContainerTypeList;
 import org.pquery.filter.OneToFiveFilter;
 
-import com.google.gson.Gson;
-
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.preference.PreferenceManager;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class Prefs {
 
-	public static final String CGEO = "cgeo_preference";
+    public static final String CGEO = "cgeo_preference";
     public static final String MAX_CACHES = "maxcaches_preference";
     public static final String PREFIX = "nameprefix_preference";
     public static final String GEOCODER_PROVIDER = "geocoding_provider_preference";
@@ -40,7 +41,7 @@ public class Prefs {
     public static final String USERNAME = "username_preference";
     public static final String PASSWORD = "password_preference";
     private static final String RADIUS = "radius_preference2";
-    
+
     private static final String ENABLED_FILTER = "enabled_filter_preference";
     private static final String TRAVEL_BUG_FILTER = "travel_bug_filter";
     private static final String NOT_IGNORED_FILTER = "not_ignored_filter";
@@ -48,9 +49,9 @@ public class Prefs {
     private static final String NOT_FOUND_FILTER = "not_found_filter";
     private static final String I_DONT_OWN_FILTER = "i_dont_own_filter";
     private static final String NOT_BEEN_FOUND_FILTER = "not_been_found_filter";
-    
+
     private static final String LOCATION_ACCURACY = "location_accuracy_preference";
-    
+
     private static final String COMMA = "\u001F";
     private static final String SEMI_COLON = "\u007F";
 
@@ -61,6 +62,7 @@ public class Prefs {
         return PreferenceManager.getDefaultSharedPreferences(cxt).getString(GEOCODER_PROVIDER, cxt.getResources().getStringArray(R.array.geocoder_provider_values)[0]);
 
     }
+
     public static int getLocationAccuracy(Context cxt) {
         return Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(cxt).getString(LOCATION_ACCURACY, "150"));
     }
@@ -73,8 +75,8 @@ public class Prefs {
         boolean found7days = prefs.getBoolean(FOUND_7DAYS_FILTER, false);
         boolean notFound = prefs.getBoolean(NOT_FOUND_FILTER, false);
         boolean idontown = prefs.getBoolean(I_DONT_OWN_FILTER, false);
-        boolean notBeenFound = prefs.getBoolean(NOT_BEEN_FOUND_FILTER,false);
-        
+        boolean notBeenFound = prefs.getBoolean(NOT_BEEN_FOUND_FILTER, false);
+
         CheckBoxesFilter ret = new CheckBoxesFilter();
         ret.enabled = enabled;
         ret.travelBug = travelBug;
@@ -85,18 +87,23 @@ public class Prefs {
         ret.notBeenFound = notBeenFound;
         return ret;
     }
+
     public static String getMaxCaches(Context cxt) {
         return PreferenceManager.getDefaultSharedPreferences(cxt).getString(MAX_CACHES, "500");
     }
+
     public static String getDownloadPrefix(Context cxt) {
         return PreferenceManager.getDefaultSharedPreferences(cxt).getString(PREFIX, "pocketquery_");
     }
+
     public static String getUserSpecifiedDownloadDir(Context cxt) {
         return PreferenceManager.getDefaultSharedPreferences(cxt).getString(USER_DOWNLOAD_DIR, Util.getDefaultDownloadDirectory());
     }
+
     public static boolean isDefaultDownloadDir(Context cxt) {
         return PreferenceManager.getDefaultSharedPreferences(cxt).getBoolean(DEFAULT_DOWNLOAD_DIR, true);
     }
+
     public static boolean getDisabled(Context cxt) {
         return PreferenceManager.getDefaultSharedPreferences(cxt).getBoolean(DISABLED, false);
     }
@@ -104,6 +111,7 @@ public class Prefs {
     public static boolean getDownload(Context cxt) {
         return PreferenceManager.getDefaultSharedPreferences(cxt).getBoolean("download_preference", true);
     }
+
     public static int getRetryCount(Context cxt) {
         return Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(cxt).getString("retry_preference", "3"));
     }
@@ -115,9 +123,11 @@ public class Prefs {
     public static String getDefaultRadius(Context cxt) {
         return PreferenceManager.getDefaultSharedPreferences(cxt).getString(RADUIS, "5");
     }
+
     public static boolean getCgeoCompatability(Context cxt) {
-    	return PreferenceManager.getDefaultSharedPreferences(cxt).getBoolean(CGEO, false);
+        return PreferenceManager.getDefaultSharedPreferences(cxt).getBoolean(CGEO, false);
     }
+
     public static void saveDefaultRadius(Context cxt, String radius) {
         Editor edit = PreferenceManager.getDefaultSharedPreferences(cxt).edit();
         edit.putString(RADUIS, radius);
@@ -187,7 +197,7 @@ public class Prefs {
 
         // Store the cookie list into a string
 
-        for (Cookie c: cookies) {
+        for (Cookie c : cookies) {
             s += c.getName() + COMMA + c.getValue() + SEMI_COLON;
         }
 
@@ -208,7 +218,7 @@ public class Prefs {
     }
 
     public static List<Cookie> getCookies(Context cxt) {
-        ArrayList<Cookie> ret  = new ArrayList<Cookie>();
+        ArrayList<Cookie> ret = new ArrayList<Cookie>();
 
         // Decode Base64 wrapper
 
@@ -216,23 +226,23 @@ public class Prefs {
         try {
             s = new String(Base64.decode(PreferenceManager.getDefaultSharedPreferences(cxt).getString(COOKIES, "")));
         } catch (IOException e) {
-            Logger.e("base64 problem",e);
+            Logger.e("base64 problem", e);
             return ret;
         }
 
-        if (s.length()==0)          // No cookie yet
+        if (s.length() == 0)          // No cookie yet
             return ret;
 
         // Split seperate cookies by SEMI_COLON, then name/value pair by COMMA
 
         String cookies[] = s.split(SEMI_COLON);
 
-        for (int i=0; i<cookies.length; i++) {
+        for (int i = 0; i < cookies.length; i++) {
 
             String cookie = cookies[i];
             String parts[] = cookie.split(COMMA);
 
-            if (i==0) {
+            if (i == 0) {
                 // Username and password are stored in first cookie slot
                 // Check match current preferences. If not we have to dump cookie
 
@@ -247,17 +257,14 @@ public class Prefs {
             } else {
 
                 // Check for bad cookie. Shouldn't happen
-                if (parts.length==2)
-                {
+                if (parts.length == 2) {
                     BasicClientCookie basicCookie = new BasicClientCookie(parts[0], parts[1]);
                     basicCookie.setDomain("www.geocaching.com");
                     basicCookie.setPath("/");
                     ret.add(basicCookie);
+                } else {
+                    Logger.e("got bad cookie [" + cookie + "]");
                 }
-                else
-                {
-                    Logger.e("got bad cookie [" + cookie +"]");
-                } 
             }
         }
 
@@ -267,6 +274,7 @@ public class Prefs {
     public static boolean isZip(Context cxt) {
         return PreferenceManager.getDefaultSharedPreferences(cxt).getBoolean("zip_preference", true);
     }
+
     public static String getUsername(Context cxt) {
         return PreferenceManager.getDefaultSharedPreferences(cxt).getString(USERNAME, "");
     }
@@ -293,19 +301,19 @@ public class Prefs {
         edit.putBoolean(AUTO_NAME, autoName);
         edit.commit();
     }
+
     public static void saveUserSpecifiedDownloadDir(Context cxt, String dir) {
         Editor edit = PreferenceManager.getDefaultSharedPreferences(cxt).edit();
         edit.putString(USER_DOWNLOAD_DIR, dir);
         edit.commit();
     }
 
-    public static void savePQListState(Context cxt, PQ [] pqs) {
+    public static void savePQListState(Context cxt, PQ[] pqs) {
         String pqSerialized = null;
 
-        if (pqs!=null)
-        {
+        if (pqs != null) {
             pqSerialized = new Gson().toJson(pqs);
-        
+
 //            for (int i=0; i<pqs.length; i++) {
 //                try {
 //                    pqSerialized += new Gson().toJson(pqs);
@@ -335,15 +343,15 @@ public class Prefs {
     public static PQ[] getPQListState(Context cxt) {
         String pqsSerial = PreferenceManager.getDefaultSharedPreferences(cxt).getString(PQ_LIST_STATE, null);
 
-        if (pqsSerial==null)
+        if (pqsSerial == null)
             return null;
 
-        if (pqsSerial=="")
+        if (pqsSerial == "")
             return new PQ[0];
 
-        
+
         return new Gson().fromJson(pqsSerial, PQ[].class);
-        
+
 //        String pqsSerialSplit[] = pqsSerial.split(SEMI_COLON);
 //
 //        PQ[] pqs = new PQ[pqsSerialSplit.length];
@@ -358,7 +366,7 @@ public class Prefs {
 //        } catch (ClassNotFoundException e) {
 //            Logger.e("Error",e);
 //        }
-       // return new PQ[0];
+        // return new PQ[0];
     }
 
     public static void userNameChanged(Context cxt) {

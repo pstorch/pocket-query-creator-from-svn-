@@ -1,7 +1,7 @@
 package org.pquery;
 
 public enum CacheType {
-    
+
     WHERIGO(R.string.type_wherigo),
     ADVENTURES(R.string.type_adventures),
     TRADITIONAL(R.string.type_traditional),
@@ -13,14 +13,15 @@ public enum CacheType {
     APE(R.string.type_project),
     WEBCAM(R.string.type_webcam),
     EARTHCACHE(R.string.type_earthcache);
-    
+
     private int resId;
+
     CacheType(int resId) {
         this.resId = resId;
     }
-    
+
     public int getResourceId() {
         return resId;
     }
-    
+
 }

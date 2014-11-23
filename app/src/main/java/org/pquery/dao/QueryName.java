@@ -21,6 +21,7 @@ public class QueryName implements Parcelable {
         public QueryName createFromParcel(Parcel in) {
             return new QueryName(in);
         }
+
         public QueryName[] newArray(int size) {
             return new QueryName[size];
         }
@@ -29,6 +30,7 @@ public class QueryName implements Parcelable {
     public QueryName(Parcel in) {
         name = in.readString();
     }
+
     public QueryName(String name) {
         this.name = name;
     }

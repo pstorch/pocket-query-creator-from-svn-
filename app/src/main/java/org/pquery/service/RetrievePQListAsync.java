@@ -1,5 +1,8 @@
 package org.pquery.service;
 
+import android.content.Context;
+import android.os.AsyncTask;
+
 import net.htmlparser.jericho.Source;
 
 import org.pquery.dao.PQ;
@@ -12,9 +15,6 @@ import org.pquery.webdriver.RetrievePageTask;
 import org.pquery.webdriver.parser.ParseException;
 import org.pquery.webdriver.parser.PocketQueryPage;
 
-import android.content.Context;
-import android.os.AsyncTask;
-
 public class RetrievePQListAsync extends AsyncTask<Void, ProgressInfo, RetrievePQListResult> implements CancelledListener, ProgressListener {
 
     private Context cxt;
@@ -26,15 +26,14 @@ public class RetrievePQListAsync extends AsyncTask<Void, ProgressInfo, RetrieveP
 
     @Override
     protected RetrievePQListResult doInBackground(Void... params) {
-        try
-        {
+        try {
             Logger.d("start");
-            
+
             // Unlike the PQ creation, for this operation don't bother to retry on 
             // errors
             int retryCount = 0;
-            
-            RetrievePageTask task = new RetrievePageTask(retryCount,0,100, this, this, cxt, "/pocket/default.aspx");
+
+            RetrievePageTask task = new RetrievePageTask(retryCount, 0, 100, this, this, cxt, "/pocket/default.aspx");
             Source parsedHtml = task.call();
 
             PocketQueryPage queryListPage = new PocketQueryPage(parsedHtml);
@@ -49,20 +48,20 @@ public class RetrievePQListAsync extends AsyncTask<Void, ProgressInfo, RetrieveP
         } catch (FailurePermanentException e) {
             return new RetrievePQListResult(e);
         } catch (ParseException e) {
-        	return new RetrievePQListResult(new FailurePermanentException(e.getMessage()));
-		}
+            return new RetrievePQListResult(new FailurePermanentException(e.getMessage()));
+        }
 
     }
-    
+
 
     @Override
     public void progressReport(ProgressInfo progress) {
-        publishProgress(new ProgressInfo[] { progress });
+        publishProgress(new ProgressInfo[]{progress});
     }
 
     @Override
     public void ifCancelledThrow() throws InterruptedException {
-       if (isCancelled())
-           throw new InterruptedException();
+        if (isCancelled())
+            throw new InterruptedException();
     }
 }

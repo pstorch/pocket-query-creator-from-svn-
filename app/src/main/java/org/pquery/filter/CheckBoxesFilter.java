@@ -1,7 +1,8 @@
 package org.pquery.filter;
 
-import org.pquery.R;
 import android.content.res.Resources;
+
+import org.pquery.R;
 
 public class CheckBoxesFilter {
 
@@ -10,12 +11,13 @@ public class CheckBoxesFilter {
     public boolean notFound;
     public boolean found7days;
     public boolean travelBug;
-	public boolean idontown;
-	public boolean notBeenFound;
-	
-    
+    public boolean idontown;
+    public boolean notBeenFound;
+
+
     public CheckBoxesFilter() {
     }
+
     public CheckBoxesFilter(boolean[] selections) {
         enabled = selections[0];
         notOnIgnore = selections[1];
@@ -25,10 +27,10 @@ public class CheckBoxesFilter {
         idontown = selections[5];
         notBeenFound = selections[6];
     }
-    
+
     public String toLocalisedString(Resources res) {
         StringBuffer ret = new StringBuffer();
-        
+
         if (enabled)
             ret.append(res.getString(R.string.filter_enabled) + ", ");
         if (notOnIgnore)
@@ -40,16 +42,16 @@ public class CheckBoxesFilter {
         if (travelBug)
             ret.append(res.getString(R.string.filter_travelbug) + ", ");
         if (idontown)
-        	ret.append(res.getString(R.string.filter_idontown) + ", ");
+            ret.append(res.getString(R.string.filter_idontown) + ", ");
         if (notBeenFound)
-        	ret.append(res.getString(R.string.filter_notbeenfound) + ", ");
+            ret.append(res.getString(R.string.filter_notbeenfound) + ", ");
         // Knock off ending ', '
-        if (ret.length()>0)
-            ret.setLength(ret.length() - 2) ;
-        
+        if (ret.length() > 0)
+            ret.setLength(ret.length() - 2);
+
         return ret.toString();
     }
-    
+
     public String[] getOptions(Resources res) {
         String[] ret = new String[7];
         ret[0] = res.getString(R.string.filter_enabled);
@@ -61,7 +63,7 @@ public class CheckBoxesFilter {
         ret[6] = res.getString(R.string.filter_notbeenfound);
         return ret;
     }
-    
+
     public boolean[] getAsBooleanArray() {
         boolean[] ret = new boolean[7];
         ret[0] = enabled;

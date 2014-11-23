@@ -1,9 +1,9 @@
 package org.pquery;
 
-import java.util.List;
-
 import android.location.LocationListener;
 import android.location.LocationManager;
+
+import java.util.List;
 
 public class GPS {
 
@@ -11,7 +11,7 @@ public class GPS {
 
         List<String> providers = locationManager.getAllProviders();
 
-        for (String provider: providers) {
+        for (String provider : providers) {
             locationManager.requestLocationUpdates(provider, 2000, 5, listener);
         }
 

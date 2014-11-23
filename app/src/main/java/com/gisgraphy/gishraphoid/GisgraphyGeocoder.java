@@ -1,7 +1,11 @@
 package com.gisgraphy.gishraphoid;
 
-import static com.gisgraphy.gishraphoid.JTSHelper.checkLatitude;
-import static com.gisgraphy.gishraphoid.JTSHelper.checkLongitude;
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
+import android.util.Log;
+
+import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -12,12 +16,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import android.content.Context;
-import android.location.Address;
-import android.location.Geocoder;
-import android.util.Log;
-
-import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
+import static com.gisgraphy.gishraphoid.JTSHelper.checkLatitude;
+import static com.gisgraphy.gishraphoid.JTSHelper.checkLongitude;
 
 /**
  * A class for handling geocoding and reverse geocoding with Gisgraphy. with the
@@ -36,11 +36,10 @@ import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
  * The Geocoder query methods will return an empty list if there no backend
  * service in the platform. Use the isPresent() method to determine whether a
  * Geocoder implementation exists.
- * 
+ * <p/>
  * You can use this class as a singleton if the local is unchanged
- * 
+ *
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
- * 
  */
 public class GisgraphyGeocoder {
 
@@ -49,7 +48,7 @@ public class GisgraphyGeocoder {
     /**
      * the api key parameter name. <br/>
      * This parameter is only required for Gisgraphy premium services
-     * 
+     *
      * @see #getApiKey();
      * @see #setApiKey(Long)
      */
@@ -70,7 +69,7 @@ public class GisgraphyGeocoder {
     protected static final String DEFAULT_FORMAT = "json";
     /**
      * the URI to the geocoding services.
-     * 
+     *
      * @see GisgraphyGeocoder#DEFAULT_BASE_URL;
      */
     public static final String GEOCODING_URI = "geocoding/geocode";
@@ -82,7 +81,6 @@ public class GisgraphyGeocoder {
     /**
      * this method purpose is only to mock the call to android logger during
      * tests and always log with the same tag.feel free to override
-     * 
      */
     protected void log_d(String message) {
         Log.d(LOG_TAG, message);
@@ -94,8 +92,7 @@ public class GisgraphyGeocoder {
     }
 
     /**
-     * @param url
-     *            the Gisgraphy base URL. It must follow the
+     * @param url the Gisgraphy base URL. It must follow the
      *            SCHEME://HOST[:PORT][/CONTEXT]/ Don't add the URI.<br/>
      *            Good base URL : http://services.gisgraphy.com/<br/>
      *            Bad base URL : http://services.gisgraphy.com/geocoding/geocode
@@ -118,13 +115,10 @@ public class GisgraphyGeocoder {
      * {@link #GisgraphyGeocoder(Context, Locale, String)} constructor. This
      * method is only to suite the android geocoder interface the Gisgraphy base
      * URL will be the {@link #DEFAULT_BASE_URL}
-     * 
-     * @param context
-     *            the Context of the calling Activity
-     * @param locale
-     *            the desired Locale for the query results
-     * @throws NullPointerException
-     *             if Locale is null
+     *
+     * @param context the Context of the calling Activity
+     * @param locale  the desired Locale for the query results
+     * @throws NullPointerException if Locale is null
      */
     public GisgraphyGeocoder(Context context, Locale locale) {
         if (locale == null) {
@@ -137,14 +131,11 @@ public class GisgraphyGeocoder {
     /**
      * Constructs a Geocoder whose responses will be localized for the given
      * Locale and URL
-     * 
-     * @param context
-     *            the Context of the calling Activity
-     * @param locale
-     *            the desired Locale for the query results
-     * @param url
-     *            the base url (scheme,host,port). see
-     *            {@link #setBaseUrl(String)}
+     *
+     * @param context the Context of the calling Activity
+     * @param locale  the desired Locale for the query results
+     * @param url     the base url (scheme,host,port). see
+     *                {@link #setBaseUrl(String)}
      * @see GisgraphyGeocoder#setBaseUrl(String)
      */
     public GisgraphyGeocoder(Context context, Locale locale, String url) {
@@ -161,9 +152,8 @@ public class GisgraphyGeocoder {
      * default system Locale. You should prefer the
      * {@link #GisgraphyGeocoder(Context, String)} constructor. This method is
      * only here to suite the android geocoder interface
-     * 
-     * @param context
-     *            the desired Locale for the query results
+     *
+     * @param context the desired Locale for the query results
      */
     public GisgraphyGeocoder(Context context) {
         addressBuilder = new AndroidAddressBuilder();
@@ -172,12 +162,10 @@ public class GisgraphyGeocoder {
     /**
      * Constructs a Geocoder whose responses will be localized for the default
      * system Locale.
-     * 
-     * @param context
-     *            the desired Locale for the query results
-     * @param url
-     *            the base url (scheme,host,port). see
-     *            {@link #setBaseUrl(String)}
+     *
+     * @param context the desired Locale for the query results
+     * @param url     the base url (scheme,host,port). see
+     *                {@link #setBaseUrl(String)}
      */
     public GisgraphyGeocoder(Context context, String url) {
         this.locale = Locale.getDefault();
@@ -188,28 +176,21 @@ public class GisgraphyGeocoder {
     /**
      * Returns a list of Addresses that are known to describe the area
      * immediately surrounding the given latitude and longitude.
-     * 
+     * <p/>
      * The returned values may be obtained by means of a network lookup. The
      * results are a best guess and are not guaranteed to be meaningful or
      * correct. It may be useful to call this method from a thread separate from
      * your primary UI thread.
-     * 
-     * @param latitude
-     *            the latitude a point for the search
-     * @param longitude
-     *            the longitude a point for the search
-     * @param maxResults
-     *            max number of addresses to return. Smaller numbers (1 to 5)
-     *            are recommended
+     *
+     * @param latitude   the latitude a point for the search
+     * @param longitude  the longitude a point for the search
+     * @param maxResults max number of addresses to return. Smaller numbers (1 to 5)
+     *                   are recommended
      * @return a list of Address objects. Returns empty list if no matches were
-     *         found or there is no backend service available.
-     * 
-     * @throws IllegalArgumentException
-     *             if latitude is less than -90 or greater than 90
-     * @throws IllegalArgumentException
-     *             if longitude is less than -180 or greater than 180
-     * @throws IOException
-     *             if the network is unavailable or any other I/O problem occurs
+     * found or there is no backend service available.
+     * @throws IllegalArgumentException if latitude is less than -90 or greater than 90
+     * @throws IllegalArgumentException if longitude is less than -180 or greater than 180
+     * @throws IOException              if the network is unavailable or any other I/O problem occurs
      */
     public List<Address> getFromLocation(double latitude, double longitude, int maxResults) throws IOException {
         log_d("getFromLocation: lat=" + latitude + ",longitude=" + longitude + ",maxResults=" + maxResults);
@@ -237,7 +218,7 @@ public class GisgraphyGeocoder {
             params.put(LONGITUDE_PARAMETER_NAME, longitude + "");
             params.put("radius", 500 + "");
             params.put(FORMAT_PARAMETER_NAME, DEFAULT_FORMAT);
-            params.put("from","1");
+            params.put("from", "1");
             params.put("to", "1");
             if (apiKey != null) {
                 params.put(APIKEY_PARAMETER_NAME, apiKey + "");
@@ -269,8 +250,8 @@ public class GisgraphyGeocoder {
 
     /**
      * @return the apikey. apikey is only used for Gisgraphy premium services.
-     *         It is not required for free services (when those lines are
-     *         written)
+     * It is not required for free services (when those lines are
+     * written)
      * @see http://www.gisgraphy.com/premium
      */
     public Long getApiKey() {
@@ -278,10 +259,9 @@ public class GisgraphyGeocoder {
     }
 
     /**
-     * @param apiKey
-     *            the apikey provided by gisgraphy apikey is used for Gisgraphy
-     *            premium services. It is not required for free services (when
-     *            those lines are written)
+     * @param apiKey the apikey provided by gisgraphy apikey is used for Gisgraphy
+     *               premium services. It is not required for free services (when
+     *               those lines are written)
      * @see http://www.gisgraphy.com/premium
      */
     public void setApiKey(Long apiKey) {

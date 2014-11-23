@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <EditTextPreference
         android:defaultValue="500"
@@ -20,7 +20,8 @@
         		android:defaultValue="true"
                 android:key="active_preference"
                 android:title="Only active caches"
-                android:summary="Only include active/enabled geocaches" />
+                android:summary="Only include active/enabled geocaches" />
+
     -->
 
     <CheckBoxPreference
@@ -28,12 +29,12 @@
         android:key="zip_preference"
         android:summary="However, downloaded PQ with this app are always zipped"
         android:title="Compress emailed PQ" />
-    
+
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="metric_preference"
         android:summary="Use km instead of miles"
         android:title="Metric distances" />
 
-    
+
 </PreferenceScreen>

@@ -17,10 +17,6 @@
 
 package org.pquery;
 
-import java.util.List;
-
-import org.pquery.util.Prefs;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,8 +26,9 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.FloatMath;
-import android.view.MotionEvent;
+import android.view.GestureDetector;
 import android.view.GestureDetector.OnDoubleTapListener;
+import android.view.MotionEvent;
 
 import com.actionbarsherlock.app.SherlockMapActivity;
 import com.actionbarsherlock.view.MenuItem;
@@ -41,14 +38,17 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.Projection;
 
-import android.view.GestureDetector;
+import org.pquery.util.Prefs;
 
-public class MapsActivity extends SherlockMapActivity
-{  
-	/** Pulled out of prefs when activity created */
-	private float radiusInKm;
-	
-    MapView mapView; 
+import java.util.List;
+
+public class MapsActivity extends SherlockMapActivity {
+    /**
+     * Pulled out of prefs when activity created
+     */
+    private float radiusInKm;
+
+    MapView mapView;
     MapController mc;
 
     /**
@@ -69,8 +69,7 @@ public class MapsActivity extends SherlockMapActivity
          * Detects a clean touch (not a drag) and moves location
          */
         @Override
-        public boolean onTouchEvent(MotionEvent event, MapView mapView) 
-        {   
+        public boolean onTouchEvent(MotionEvent event, MapView mapView) {
             return gesturedetector.onTouchEvent(event);
 
             //			if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -108,27 +107,26 @@ public class MapsActivity extends SherlockMapActivity
             //			}         
             //
             //			return false;
-        }        
+        }
 
         @Override
-        public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) 
-        {
-            super.draw(canvas, mapView, shadow);                   
+        public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) {
+            super.draw(canvas, mapView, shadow);
 
-            if (point!=null) {
+            if (point != null) {
                 //---translate the GeoPoint to screen pixels---
                 Point screenPts = new Point();
                 mapView.getProjection().toPixels(point, screenPts);
 
                 //---add the marker---
-                Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.pushpin);            
+                Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.pushpin);
                 canvas.drawBitmap(bmp, screenPts.x, screenPts.y - bmp.getHeight(), null);
-                
-                
+
+
                 // draw a circle around the center point to show the radius the pocket query will cover
                 Projection projection = mapView.getProjection();
-                
-                float circleRadius = projection.metersToEquatorPixels(radiusInKm * 1000) * (1/ FloatMath.cos((float) Math.toRadians(point.getLatitudeE6() / 1E6)));
+
+                float circleRadius = projection.metersToEquatorPixels(radiusInKm * 1000) * (1 / FloatMath.cos((float) Math.toRadians(point.getLatitudeE6() / 1E6)));
 
                 Paint innerCirclePaint;
 
@@ -139,9 +137,9 @@ public class MapsActivity extends SherlockMapActivity
 
                 innerCirclePaint.setStyle(Paint.Style.FILL);
 
-                canvas.drawCircle((float)screenPts.x, (float)screenPts.y, circleRadius, innerCirclePaint);
-                
-                
+                canvas.drawCircle((float) screenPts.x, (float) screenPts.y, circleRadius, innerCirclePaint);
+
+
             }
 
             return true;
@@ -165,12 +163,12 @@ public class MapsActivity extends SherlockMapActivity
             Intent data = new Intent();
 
             data.putExtra("lat", point.getLatitudeE6() / 1E6);
-            data.putExtra("lon", point.getLongitudeE6() /1E6);
+            data.putExtra("lon", point.getLongitudeE6() / 1E6);
 
-            setResult(RESULT_OK, data) ;
+            setResult(RESULT_OK, data);
         }
 
-        public boolean onScroll(MotionEvent arg0, MotionEvent arg1, float arg2,	float arg3) {
+        public boolean onScroll(MotionEvent arg0, MotionEvent arg1, float arg2, float arg3) {
             return false;
         }
 
@@ -195,14 +193,13 @@ public class MapsActivity extends SherlockMapActivity
         }
 
 
-
-
     }
 
-    /** Called when the activity is first created. */
+    /**
+     * Called when the activity is first created.
+     */
     @Override
-    public void onCreate(Bundle savedInstanceState) 
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -216,17 +213,17 @@ public class MapsActivity extends SherlockMapActivity
         MapOverlay mapOverlay = new MapOverlay();
         List<Overlay> listOfOverlays = mapView.getOverlays();
         listOfOverlays.clear();
-        listOfOverlays.add(mapOverlay);  
+        listOfOverlays.add(mapOverlay);
 
         mc = mapView.getController();
 
-        double lat = getIntent().getDoubleExtra("lat",0.0);
+        double lat = getIntent().getDoubleExtra("lat", 0.0);
         double lng = getIntent().getDoubleExtra("lon", 0.0);
 
         if (lat == 0) {
             lat = 46.4;
             lng = -35;
-            mc.setZoom(3); 
+            mc.setZoom(3);
         } else {
             mc.setZoom(15);
         }
@@ -235,9 +232,9 @@ public class MapsActivity extends SherlockMapActivity
         mapView.invalidate();
 
         if (Prefs.isMetric(this))
-        	radiusInKm = Float.parseFloat(Prefs.getDefaultRadius(this));
+            radiusInKm = Float.parseFloat(Prefs.getDefaultRadius(this));
         else
-        	radiusInKm = Float.parseFloat(Prefs.getDefaultRadius(this)) * 1.609344f;
+            radiusInKm = Float.parseFloat(Prefs.getDefaultRadius(this)) * 1.609344f;
     }
 
     @Override
@@ -248,8 +245,8 @@ public class MapsActivity extends SherlockMapActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        case android.R.id.home:
-            finish();
+            case android.R.id.home:
+                finish();
         }
         return true;
     }

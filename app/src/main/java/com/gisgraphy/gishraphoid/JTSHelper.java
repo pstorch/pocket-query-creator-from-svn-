@@ -7,8 +7,7 @@ import java.util.Locale;
 public class JTSHelper {
 
     /**
-     * @param latitude
-     *            the latitude to test
+     * @param latitude the latitude to test
      * @return true if correct
      * @throw new {@link IllegalArgumentException} if not correct
      */
@@ -20,8 +19,7 @@ public class JTSHelper {
     }
 
     /**
-     * @param longitude
-     *            the latitude to test
+     * @param longitude the latitude to test
      * @return true if correct
      * @throw new {@link IllegalArgumentException} if not correct
      */
@@ -35,12 +33,10 @@ public class JTSHelper {
     /**
      * parse a string and return the corresponding double value, it accepts
      * comma or point as decimal separator
-     * 
-     * @param number
-     *            the number with a point or a comma as decimal separator
+     *
+     * @param number the number with a point or a comma as decimal separator
      * @return the float value corresponding to the parsed string
-     * @throws ParseException
-     *             in case of errors
+     * @throws ParseException in case of errors
      */
     public static Float parseInternationalDouble(String number) throws ParseException {
         NumberFormat nffrench = NumberFormat.getInstance(Locale.FRENCH);

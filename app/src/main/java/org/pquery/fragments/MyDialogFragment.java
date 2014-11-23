@@ -1,10 +1,10 @@
 package org.pquery.fragments;
 
-import com.actionbarsherlock.app.SherlockDialogFragment;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+
+import com.actionbarsherlock.app.SherlockDialogFragment;
 
 public class MyDialogFragment extends SherlockDialogFragment {
 
@@ -22,11 +22,11 @@ public class MyDialogFragment extends SherlockDialogFragment {
 
         String title = getArguments().getString("title");
         String message = getArguments().getString("message");
-        
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(message)
-        .setTitle(title)
-        .setPositiveButton(android.R.string.ok, null);
+                .setTitle(title)
+                .setPositiveButton(android.R.string.ok, null);
         return builder.create();
     }
 }

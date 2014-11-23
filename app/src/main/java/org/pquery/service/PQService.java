@@ -1,14 +1,5 @@
 package org.pquery.service;
 
-import java.util.ArrayList;
-import junit.framework.Assert;
-
-import org.pquery.Main;
-import org.pquery.QueryStore;
-import org.pquery.dao.PQ;
-import org.pquery.util.Logger;
-import org.pquery.util.Prefs;
-import org.pquery.webdriver.ProgressInfo;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
@@ -19,26 +10,39 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.PowerManager;
 
+import junit.framework.Assert;
+
+import org.pquery.Main;
+import org.pquery.QueryStore;
+import org.pquery.dao.PQ;
+import org.pquery.util.Logger;
+import org.pquery.util.Prefs;
+import org.pquery.webdriver.ProgressInfo;
+
+import java.util.ArrayList;
+
 /**
  * Service that runs long running network tasks
  */
 public class PQService extends Service {
 
-    public static final int OPERATION_REFRESH=1;
-    public static final int OPERATION_DOWNLOAD=2;
-    public static final int OPERATION_CREATE=3;
+    public static final int OPERATION_REFRESH = 1;
+    public static final int OPERATION_DOWNLOAD = 2;
+    public static final int OPERATION_CREATE = 3;
 
     private NotificationUtil notificationUtil;
     private PowerManager.WakeLock wakeLock;
-    
+
     private RetrievePQListAsync retrievePQListAsync;
     private DownloadPQAsync downloadPQAsync;
     private CreatePQAsync createPQAsync;
-    
-    /** Keeps track of all current registered clients. */
+
+    /**
+     * Keeps track of all current registered clients.
+     */
     private ArrayList<PQServiceListener> clients = new ArrayList<PQServiceListener>();
 
-    /** 
+    /**
      * Store the last service update we sent to clients
      */
     private ProgressInfo lastUpdate;
@@ -46,31 +50,35 @@ public class PQService extends Service {
     public void registerClient(PQServiceListener client) {
         clients.add(client);
         if (isOperationInProgress())
-        	if (lastUpdate!=null)
-        		sendMessageToClients(lastUpdate);
+            if (lastUpdate != null)
+                sendMessageToClients(lastUpdate);
     }
+
     public void unRegisterClient(PQServiceListener client) {
         clients.remove(client);
     }
+
     public boolean isOperationInProgress() {
-        if (retrievePQListAsync!=null || downloadPQAsync!=null || createPQAsync!=null)
+        if (retrievePQListAsync != null || downloadPQAsync != null || createPQAsync != null)
             return true;
         return false;
     }
+
     public void cancelInProgress() {
-        if (retrievePQListAsync!=null) {
-        	Logger.d("Cancelling retrievePQListAsync");
+        if (retrievePQListAsync != null) {
+            Logger.d("Cancelling retrievePQListAsync");
             retrievePQListAsync.cancel(true);
-        } else if (downloadPQAsync!=null) {
-        	Logger.d("Cancelling downloadPQAsync");
+        } else if (downloadPQAsync != null) {
+            Logger.d("Cancelling downloadPQAsync");
             downloadPQAsync.cancel(true);
-        } else if (createPQAsync!=null) {
-        	Logger.d("Cancelling createPQAsync");
+        } else if (createPQAsync != null) {
+            Logger.d("Cancelling createPQAsync");
             createPQAsync.cancel(true);
         } else {
-        	Assert.assertTrue(false);
+            Assert.assertTrue(false);
         }
     }
+
     /**
      * Class for clients to access. Because we know this service always runs in
      * the same process as its clients, we don't need to deal with IPC.
@@ -109,25 +117,25 @@ public class PQService extends Service {
 
         Bundle extras = intent.getExtras();
         int operation = intent.getIntExtra("operation", 0);
-        
-        Logger.d("enter [flags="+flags+",operation="+operation+",startId="+startId+"]");
+
+        Logger.d("enter [flags=" + flags + ",operation=" + operation + ",startId=" + startId + "]");
 
         for (PQServiceListener client : clients) {
             client.onServiceStartingTask();
         }
-        
+
         switch (operation) {
-        case OPERATION_REFRESH:
-            handleRetrievePQList(extras);
-            break;
-        case OPERATION_DOWNLOAD:
-            handlePQDownload(extras);
-            break;
-        case OPERATION_CREATE:
-            handlePQCreation(extras);
-            break;
-        default:
-            Assert.assertFalse(true);
+            case OPERATION_REFRESH:
+                handleRetrievePQList(extras);
+                break;
+            case OPERATION_DOWNLOAD:
+                handlePQDownload(extras);
+                break;
+            case OPERATION_CREATE:
+                handlePQCreation(extras);
+                break;
+            default:
+                Assert.assertFalse(true);
         }
 
         Logger.d("returning");
@@ -139,11 +147,11 @@ public class PQService extends Service {
     private void handlePQCreation(Bundle extras) {
 
         final QueryStore queryStore = new QueryStore(extras.getBundle("queryStore"));
-        
+
         Assert.assertNull(wakeLock);
         Assert.assertNull(createPQAsync);
-        
-        wakeLock = ((PowerManager)getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,"PocketQuery");
+
+        wakeLock = ((PowerManager) getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "PocketQuery");
         wakeLock.acquire();
         notificationUtil.startInProgressNotification("Creating PQ", "", getPendingIntent());
 
@@ -157,13 +165,13 @@ public class PQService extends Service {
                 String title = result.getTitle();
                 String message = result.getMessage();
                 int notificationId = notificationUtil.showEndNotification(title, message);
-                
-                Prefs.erasePQListState(PQService.this);		// erase any PQ list as we know is out-of-date now
-                sendMessageToClients(new RetrievePQListResult());		// sends an empty PQ list to GUI so will redraw empty
+
+                Prefs.erasePQListState(PQService.this);        // erase any PQ list as we know is out-of-date now
+                sendMessageToClients(new RetrievePQListResult());        // sends an empty PQ list to GUI so will redraw empty
                 sendMessageToClients(title, message, notificationId);
                 cleanUpAndStopSelf();
             }
-            
+
             @Override
             protected void onCancelled() {
                 notificationUtil.closeInProgressNotification();
@@ -172,10 +180,10 @@ public class PQService extends Service {
 
             @Override
             protected void onProgressUpdate(ProgressInfo... values) {
-            	if (!isCancelled()) {
-            		sendMessageToClients(values[0]);
-            		Logger.d("" + values[0]);
-            	}
+                if (!isCancelled()) {
+                    sendMessageToClients(values[0]);
+                    Logger.d("" + values[0]);
+                }
             }
         };
         createPQAsync.execute();
@@ -188,8 +196,8 @@ public class PQService extends Service {
         Assert.assertNotNull(pq);
         Assert.assertNull(downloadPQAsync);
         Assert.assertNull(wakeLock);
-        
-        wakeLock = ((PowerManager)getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,"PocketQuery");
+
+        wakeLock = ((PowerManager) getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "PocketQuery");
         wakeLock.acquire();
         notificationUtil.startInProgressNotification("Downloading PQ " + pq.name, "", getPendingIntent());
 
@@ -201,7 +209,7 @@ public class PQService extends Service {
                 String title = result.getTitle();
                 String message = result.getMessage();
                 int notificationId = notificationUtil.showEndNotification(title, message);
-                
+
                 sendMessageToClients(title, message, notificationId);
                 cleanUpAndStopSelf();
             }
@@ -214,15 +222,14 @@ public class PQService extends Service {
 
             @Override
             protected void onProgressUpdate(ProgressInfo... values) {
-            	if (!isCancelled()) {
-            		sendMessageToClients(values[0]);
-            		Logger.d("" + values[0]);
-            	}
+                if (!isCancelled()) {
+                    sendMessageToClients(values[0]);
+                    Logger.d("" + values[0]);
+                }
             }
         };
         downloadPQAsync.execute();
     }
-
 
 
     private void handleRetrievePQList(final Bundle extras) {
@@ -239,21 +246,21 @@ public class PQService extends Service {
             @Override
             protected void onPostExecute(RetrievePQListResult result) {
                 super.onPostExecute(result);
-                
+
                 Prefs.savePQListState(PQService.this, result.pqs);
                 sendMessageToClients(result);
-                
+
                 cleanUpAndStopSelf();
             }
 
             @Override
             protected void onProgressUpdate(ProgressInfo... values) {
-            	Assert.assertNotNull(values[0]);
-            	
-            	if (!isCancelled()) {
-            		sendMessageToClients(values[0]);
-                	Logger.d("" + values[0]);
-            	}
+                Assert.assertNotNull(values[0]);
+
+                if (!isCancelled()) {
+                    sendMessageToClients(values[0]);
+                    Logger.d("" + values[0]);
+                }
             }
 
         };
@@ -280,7 +287,7 @@ public class PQService extends Service {
             client.onServiceOperationResult(title, message, notificationId);
         }
     }
-    
+
 //    
 //    private void sendMessageToClients(DownloadPQResult down) {
 //        //lastUpdate = value;
@@ -294,7 +301,7 @@ public class PQService extends Service {
 //            client.onServicePQCreated(result);
 //        }
 //    }
-    
+
     private void sendMessageToClients(RetrievePQListResult list) {
         //lastUpdate = value;
         for (PQServiceListener client : clients) {
@@ -303,22 +310,22 @@ public class PQService extends Service {
     }
 
     private void cleanUpAndStopSelf() {
-    	Logger.d("stopping");
-    	
+        Logger.d("stopping");
+
         downloadPQAsync = null;
         retrievePQListAsync = null;
         createPQAsync = null;
-        
+
         lastUpdate = null;
-        
+
         for (PQServiceListener client : clients) {
             client.onServiceStoppedTask();
         }
-        
-        if (wakeLock!=null)
-        	wakeLock.release();
+
+        if (wakeLock != null)
+            wakeLock.release();
         wakeLock = null;
-        
+
         stopSelf();
     }
 

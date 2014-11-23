@@ -27,7 +27,7 @@ public class GeocachingPage {
     public GeocachingPage(Source parsedHtml) {
         this.parsedHtml = parsedHtml;
     }
-    
+
     /**
      * Look for the "Down for maintenance" Geocaching web page
      */
@@ -40,7 +40,7 @@ public class GeocachingPage {
     /**
      * Does the page look like a Geocaching page. Used to detect wifi
      * logon pages etc
-     * 
+     * <p/>
      * All Geocaching.com pages have a title containing 'Geocaching'
      */
     public boolean isGeocachingPage() {
@@ -51,13 +51,13 @@ public class GeocachingPage {
 
     /**
      * Page at http://www.geocaching.com/pocket/default.aspx
-     * 
+     * <p/>
      * In = ctl00_divSignedIn Out = ctl00_divNotSignedIn
      */
     public boolean isLoggedIn() throws ParseException {
 
         if (html.indexOf("www.geocaching.com/login/default.aspx?RESET=Y") != -1) // Logout
-                                                                                 // link
+            // link
             return true;
         if (html.indexOf("ctl00_divNotSignedIn") != -1)
             return false;
@@ -96,7 +96,7 @@ public class GeocachingPage {
     public FormFields extractForm() {
 
         // Do all the work
-        
+
         FormFields formFields = parsedHtml.getFormFields();
 
         return formFields;

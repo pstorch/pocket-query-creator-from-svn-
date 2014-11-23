@@ -1,13 +1,14 @@
 package org.pquery.webdriver.parser;
 
-import java.io.IOException;
-import java.io.InputStream;
+import android.test.AndroidTestCase;
+
 import net.htmlparser.jericho.FormFields;
 
 import org.pquery.util.Util;
 import org.pquery.webdriver.parser.GeocachingPage.ParseException;
 
-import android.test.AndroidTestCase;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class GeocachingPageTest extends AndroidTestCase {
 
@@ -65,19 +66,19 @@ public class GeocachingPageTest extends AndroidTestCase {
         } catch (ParseException e) {
         }
     }
-    
+
     public void testPremium() throws ParseException {
         assertTrue(createNewPocketQuery.isPremium());
     }
-    
+
     public void testNonPremium() throws ParseException {
         assertFalse(createNewPocketQueryNonPremium.isPremium());
     }
-    
+
     public void testTitle() {
         assertTrue(createNewPocketQuery.title().contains("Pocket Queries"));
     }
-    
+
     /**
      * Test form extraction on main, pocket query creation page
      */
@@ -85,19 +86,19 @@ public class GeocachingPageTest extends AndroidTestCase {
         String title = createNewPocketQuery.title();
         assertTrue(title.contains("Create/Edit Geocache Pocket Query"));
     }
-    
+
     public void testTitleMissing() {
         assertEquals("", simple.title());
     }
-    
+
     /**
      * Test on the logged out page. Test we can find the important username and password fields
      */
     public void testLoginFormExtract() {
         FormFields formFields = createNewPocketQueryLoggedOut.extractForm();
-        
-        assertNotNull(formFields.get("ctl00$tbUsername"));      
-        assertNotNull(formFields.get("ctl00$tbPassword")); 
+
+        assertNotNull(formFields.get("ctl00$tbUsername"));
+        assertNotNull(formFields.get("ctl00$tbPassword"));
     }
 
 }

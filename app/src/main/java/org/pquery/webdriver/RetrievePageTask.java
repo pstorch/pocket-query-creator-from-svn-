@@ -1,9 +1,9 @@
 package org.pquery.webdriver;
 
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.List;
+import android.content.Context;
+import android.content.res.Resources;
 
+import net.htmlparser.jericho.FormFields;
 import net.htmlparser.jericho.Source;
 
 import org.apache.http.cookie.Cookie;
@@ -12,17 +12,17 @@ import org.apache.http.message.BasicNameValuePair;
 import org.pquery.R;
 import org.pquery.util.HTTPStatusCodeException;
 import org.pquery.util.IOUtils;
+import org.pquery.util.IOUtils.Listener;
 import org.pquery.util.Logger;
 import org.pquery.util.Prefs;
-import org.pquery.util.IOUtils.Listener;
 import org.pquery.util.Util;
-import org.pquery.webdriver.parser.GeocachingPage;
 import org.pquery.webdriver.parser.FormFieldsExtra;
+import org.pquery.webdriver.parser.GeocachingPage;
 import org.pquery.webdriver.parser.ParseException;
 
-import net.htmlparser.jericho.FormFields;
-import android.content.Context;
-import android.content.res.Resources;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.List;
 
 public class RetrievePageTask extends RetriableTask<Source> {
 
@@ -55,11 +55,11 @@ public class RetrievePageTask extends RetriableTask<Source> {
         try {
             // Initialize to 0%
 
-            progressReport(0,res.getString(R.string.retrieving_page),"requesting");
+            progressReport(0, res.getString(R.string.retrieving_page), "requesting");
 
             client = new DefaultHttpClient();
 
-            for (Cookie c :  cookies) {
+            for (Cookie c : cookies) {
                 Logger.d("restored cookie " + c);
                 client.getCookieStore().addCookie(c);
             }
@@ -70,75 +70,68 @@ public class RetrievePageTask extends RetriableTask<Source> {
             // 0 - 50%
 
             try {
-            	
-            	
 
-            	
-            		try
-            		{
-            			
-                html = IOUtils.httpGet(client, urlPath, cancelledListener, new Listener() {
 
-                    @Override
-                    public void update(int bytesReadSoFar, int expectedLength, int percent0to100) {
-                        progressReport(
-                                percent0to100/2,    // convert to 0-50%
-                                res.getString(R.string.retrieve_page),
-                                Util.humanDownloadCounter(bytesReadSoFar, expectedLength));
-                    }
-                });
+                try {
 
-            		}
-            		catch (HTTPStatusCodeException e) {
+                    html = IOUtils.httpGet(client, urlPath, cancelledListener, new Listener() {
 
-            			cookies = client.getCookieStore().getCookies();
-            			
-            			if (e.code == 302) {
-            				
-                            html = IOUtils.httpGet(client, urlPath, cancelledListener, new Listener() {
+                        @Override
+                        public void update(int bytesReadSoFar, int expectedLength, int percent0to100) {
+                            progressReport(
+                                    percent0to100 / 2,    // convert to 0-50%
+                                    res.getString(R.string.retrieve_page),
+                                    Util.humanDownloadCounter(bytesReadSoFar, expectedLength));
+                        }
+                    });
 
-                                @Override
-                                public void update(int bytesReadSoFar, int expectedLength, int percent0to100) {
-                                    progressReport(
-                                            percent0to100/2,    // convert to 0-50%
-                                            res.getString(R.string.refresh_page),
-                                            Util.humanDownloadCounter(bytesReadSoFar, expectedLength));
-                                }
-                            });
-                            
-            				
-            			}
-            			else
-            				throw e;
-            		}
+                } catch (HTTPStatusCodeException e) {
 
-            		
-           
-            	
-            } catch (IOException e) {            	
-            	cookies = client.getCookieStore().getCookies();
+                    cookies = client.getCookieStore().getCookies();
 
-            	Logger.e("Exception downloading login page", e);
+                    if (e.code == 302) {
+
+                        html = IOUtils.httpGet(client, urlPath, cancelledListener, new Listener() {
+
+                            @Override
+                            public void update(int bytesReadSoFar, int expectedLength, int percent0to100) {
+                                progressReport(
+                                        percent0to100 / 2,    // convert to 0-50%
+                                        res.getString(R.string.refresh_page),
+                                        Util.humanDownloadCounter(bytesReadSoFar, expectedLength));
+                            }
+                        });
+
+
+                    } else
+                        throw e;
+                }
+
+
+            } catch (IOException e) {
+                cookies = client.getCookieStore().getCookies();
+
+                Logger.e("Exception downloading login page", e);
                 throw new FailureException(res.getString(R.string.login_download_fail), e);
             }
 
-            
+
             // Make sure cookies are upto date
             cookies = client.getCookieStore().getCookies();
-            
-            
+
+
             //
             // Parse the response
             //
             // Can take a long time an old CPU but good way
             // to update progress
 
-           
+
             progressReport(50, res.getString(R.string.parsing), "");
             GeocachingPage pageParser = new GeocachingPage(html);
-            
+
             ifCancelledThrow();
- 
+
             // Check for a completely wrong page returned that doesn't mention
             // Geocaching in the title
             // Likely to be a wifi login page
@@ -172,14 +165,13 @@ public class RetrievePageTask extends RetriableTask<Source> {
                 loginFormExtra.setValueChecked("ctl00$tbPassword", password);
                 loginFormExtra.setValueChecked("ctl00$cbRememberMe", "on");
                 loginFormExtra.checkValue("ctl00$btnSignIn", "Sign In");
-            }
-            catch (ParseException e) {
+            } catch (ParseException e) {
                 throw new FailurePermanentException("Failed to fill in login form");
             }
 
             List<BasicNameValuePair> nameValuePairs = loginFormExtra.toNameValuePairs();
 
-            progressReport(50, res.getString(R.string.login_geocaching_com),"requesting");
+            progressReport(50, res.getString(R.string.login_geocaching_com), "requesting");
 
             try {
                 // https://www.geocaching.com/login/default.aspx?redir=%2fpocket%2fdefault.aspx%3f
@@ -187,14 +179,14 @@ public class RetrievePageTask extends RetriableTask<Source> {
                 html = IOUtils.httpPost(client, nameValuePairs, "/login/default.aspx?redir=" + URLEncoder.encode(urlPath),
                         true, cancelledListener, new Listener() {
 
-                    @Override
-                    public void update(int bytesReadSoFar, int expectedLength, int percent0to100) {
-                        progressReport(
-                                49 + percent0to100/2,
-                                res.getString(R.string.login_geocaching_com),
-                                Util.humanDownloadCounter(bytesReadSoFar, expectedLength)); // 18-30%
-                    }
-                });
+                            @Override
+                            public void update(int bytesReadSoFar, int expectedLength, int percent0to100) {
+                                progressReport(
+                                        49 + percent0to100 / 2,
+                                        res.getString(R.string.login_geocaching_com),
+                                        Util.humanDownloadCounter(bytesReadSoFar, expectedLength)); // 18-30%
+                            }
+                        });
 
                 // Retrieve and store cookies in reply
                 cookies = client.getCookieStore().getCookies();
@@ -211,7 +203,7 @@ public class RetrievePageTask extends RetriableTask<Source> {
 
             pageParser = new GeocachingPage(html);
             ifCancelledThrow();
-            
+
             if (pageParser.atLoginPage() || !pageParser.isLoggedIn()) {
                 throw new FailurePermanentException(res.getString(R.string.bad_credentials));
             }
@@ -223,8 +215,7 @@ public class RetrievePageTask extends RetriableTask<Source> {
 
             return pageParser.parsedHtml;
 
-        }
-        catch (GeocachingPage.ParseException e) {
+        } catch (GeocachingPage.ParseException e) {
             throw new FailurePermanentException(res.getString(R.string.error_parsing), e);
         } finally {
             // Shutdown

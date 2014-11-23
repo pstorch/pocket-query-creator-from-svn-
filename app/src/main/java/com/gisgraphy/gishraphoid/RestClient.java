@@ -1,5 +1,11 @@
 package com.gisgraphy.gishraphoid;
 
+import android.util.Log;
+
+import com.google.gson.Gson;
+
+import org.pquery.util.Logger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,15 +18,8 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Map;
 
-import org.pquery.util.Logger;
-
-import android.util.Log;
-
-import com.google.gson.Gson;
-
 /**
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
- * 
  */
 public class RestClient {
     {
@@ -73,17 +72,17 @@ public class RestClient {
         Log.d("RestClient: ", "getUrl = " + urlWithQueryString);
         try {
             in = getRemoteContent(urlWithQueryString);
-            
+
             Reader reader = new BufferedReader(new InputStreamReader(in));
             char[] buf = new char[50];
             StringBuilder total = new StringBuilder();
-            int length=0;
+            int length = 0;
             while ((length = reader.read(buf)) != -1) {
-                total.append(buf,0,length);
+                total.append(buf, 0, length);
             }
-            
+
             Logger.d(total.toString());
-            
+
             T returnObjects = new Gson().fromJson(total.toString(), classToBeBound);
             // Log.d("result", String.valueOf(returnObjects));
             return returnObjects;

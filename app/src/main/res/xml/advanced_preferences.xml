@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListPreference
         android:defaultValue="3"
@@ -8,7 +8,7 @@
         android:key="retry_preference"
         android:summary="How many times should creation steps be reattempted if errors occur. Useful if network connectivity is intermittent or slow"
         android:title="Retry on errors" />
-    
+
     <ListPreference
         android:defaultValue="150"
         android:entries="@array/location_accuracy"
@@ -16,7 +16,7 @@
         android:key="location_accuracy_preference"
         android:summary="How accurate a location fix to wait for, before creating Pocket Query"
         android:title="Location accuracy" />
-    
+
     <ListPreference
         android:defaultValue="Google"
         android:entries="@array/geocoder_provider"

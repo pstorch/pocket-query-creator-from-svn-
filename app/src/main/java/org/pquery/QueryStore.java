@@ -17,11 +17,11 @@
 
 package org.pquery;
 
-import java.text.DateFormat;
-import java.util.Date;
-
 import android.location.Location;
 import android.os.Bundle;
+
+import java.text.DateFormat;
+import java.util.Date;
 
 public class QueryStore {
 
@@ -29,15 +29,15 @@ public class QueryStore {
     public double lat;
     public double lon;
     public boolean debug;
-    
+
     // Filters
     // If empty assume match all
-    
+
     //public CacheTypeList cacheTypeList = new CacheTypeList();
     //public ContainerTypeList containerTypeList  = new ContainerTypeList();
     //public OneToFiveFilter terrainFilter = new OneToFiveFilter();
     //public OneToFiveFilter difficultyFilter = new OneToFiveFilter();
-    
+
     public QueryStore() {
         //radius = Prefs.getRadius(cxt);
         //cacheTypeList = Prefs.getCacheTypeFilter(cxt);
@@ -45,12 +45,11 @@ public class QueryStore {
         //terrainFilter = Prefs.getTerrainFilter(cxt);
         //difficultyFilter = Prefs.getDifficultyFilter(cxt);
 
-            name = DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT).format(new Date());
-            name = name.replaceAll(":", ".");
-            name = name.replaceAll("/", "-");
-        }
-    
-    
+        name = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date());
+        name = name.replaceAll(":", ".");
+        name = name.replaceAll("/", "-");
+    }
+
 
     public QueryStore(Bundle bundle) {
         name = bundle.getString("QueryStore_name");
@@ -59,9 +58,9 @@ public class QueryStore {
         lon = bundle.getDouble("QueryStore_lon");
 
         debug = bundle.getBoolean("QueryStore_debug");
-        
+
         // Restore cookie list from 2 arrays
-        
+
         //viewStateMap = new HashMap<String,String>();
 
         //ArrayList<String> names = bundle.getStringArrayList("QueryStore_viewStateMap_names");
@@ -70,8 +69,8 @@ public class QueryStore {
         //for (int i=0; i<names.size(); i++) {
         //    viewStateMap.put(names.get(i), values.get(i));
         //}
-        
-        
+
+
 //        // Retrieve cache type filter
 //        
 //        cacheTypeList = new CacheTypeList(bundle.getString("QueryStore_cacheType"));
@@ -92,23 +91,23 @@ public class QueryStore {
         bundle.putDouble("QueryStore_lon", lon);
 
         // Store the cookie list into 2 arrays
-        
+
         //ArrayList<String> names = new ArrayList<String>();
         //ArrayList<String> values = new ArrayList<String>();
-        
+
         //for (String c: viewStateMap.keySet()) {
         //    names.add(c);
         //    values.add(viewStateMap.get(c));
         //}
-        
+
         //bundle.putStringArrayList("QueryStore_viewStateMap_names", names);
         //bundle.putStringArrayList("QueryStore_viewStateMap_values", values);
-        
-        
+
+
         bundle.putBoolean("QueryStore_debug", debug);
-        
+
         // Store cache type filter
-        
+
 //        bundle.putString("QueryStore_cacheType", cacheTypeList.toString());
 //        
 //        // Store container type filter
@@ -118,11 +117,11 @@ public class QueryStore {
 //        bundle.putString("QueryStore_difficulty", difficultyFilter.toString());
 //        bundle.putString("QueryStore_terrain", terrainFilter.toString());
     }
-    
+
     public boolean haveLocation() {
-    	if (lat==0 || lat==0)
-    		return false;
-    	return true;
+        if (lat == 0 || lat == 0)
+            return false;
+        return true;
     }
 
     public Location getLocation() {

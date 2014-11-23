@@ -1,16 +1,16 @@
 package org.pquery.util;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.List;
+import android.os.Environment;
+import android.text.format.Time;
+import android.util.Log;
 
 import org.apache.http.cookie.Cookie;
 import org.apache.http.message.BasicNameValuePair;
 
-import android.os.Environment;
-import android.text.format.Time;
-import android.util.Log;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
 
 public class Logger {
 
@@ -40,7 +40,7 @@ public class Logger {
     public static boolean isEnabled() {
         return enabled;
     }
-    
+
     public static void d(String message) {
         log(message, Log.DEBUG);
     }
@@ -48,31 +48,32 @@ public class Logger {
     public static void w(String message) {
         log(message, Log.WARN);
     }
-    
+
     public static void cookie(String message, List<Cookie> cookies) {
         if (enabled) {
             StringBuffer s = new StringBuffer();
             s.append(message + "\n");
             for (Cookie cookie : cookies) {
-                s.append("name=" + cookie.getName() + ", value=" + cookie.getValue()+"\n");
+                s.append("name=" + cookie.getName() + ", value=" + cookie.getValue() + "\n");
             }
             log(s.toString(), Log.DEBUG);
         }
     }
-    
-    public static void d(List <BasicNameValuePair> list) {
+
+    public static void d(List<BasicNameValuePair> list) {
         if (enabled) {
             StringBuffer s = new StringBuffer();
             for (BasicNameValuePair nvp : list) {
                 // Don't log password into log file
                 if (nvp.getName().equals("ctl00$tbPassword"))
-                    s.append(nvp.getName()+ " = password not logged\n");
+                    s.append(nvp.getName() + " = password not logged\n");
                 else
-                    s.append(nvp.getName()+ " = " + nvp.getValue()+"\n");
+                    s.append(nvp.getName() + " = " + nvp.getValue() + "\n");
             }
             log(s.toString(), Log.DEBUG);
         }
     }
+
     public static void i(String message) {
         log(message, Log.INFO);
     }
@@ -84,7 +85,7 @@ public class Logger {
     public static void e(String message, Throwable e) {
         log(message + "\n" + Log.getStackTraceString(e), Log.ERROR);
     }
-    
+
     /**
      * Log to LogCat and attempt to log to external file (if open)
      */
@@ -106,15 +107,15 @@ public class Logger {
                     StringBuffer out = new StringBuffer();
                     out.append("<font color=silver>" + now.format("%H:%M:%S") + "</font> ");
                     switch (level) {
-                    case Log.DEBUG:
-                        out.append("<font color=navy>DEBUG</font> ");
-                        break;
-                    case Log.INFO:
-                        out.append("<font color=forestgreen>INFO</font> ");
-                        break;
-                    case Log.ERROR:
-                        out.append("<font color=red>ERROR</font> ");
-                        break;
+                        case Log.DEBUG:
+                            out.append("<font color=navy>DEBUG</font> ");
+                            break;
+                        case Log.INFO:
+                            out.append("<font color=forestgreen>INFO</font> ");
+                            break;
+                        case Log.ERROR:
+                            out.append("<font color=red>ERROR</font> ");
+                            break;
                     }
                     out.append("<font color=navy>[" + location + "]</font> - " + replaceNewlineWithBr(message) + "<br>\r\n");
                     fout.write(out.toString().getBytes());
@@ -162,9 +163,10 @@ public class Logger {
     private static String getAppDirectory() {
         return Environment.getExternalStorageDirectory().getAbsolutePath() + STORE_DIR;
     }
-    
+
     /**
      * Replace all \r\n or \n in a string with the html <br>
+     *
      * @param s
      * @return
      */

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
     <CheckBoxPreference
         android:defaultValue="false"
         android:disableDependentsState="true"
         android:key="disabled_preference"
         android:summary="Create Query in state such that it won&apos;t autorun. Allows manual modification after creation"
         android:title="Create disabled" />
-    
+
     <CheckBoxPreference
         android:defaultValue="true"
         android:dependency="disabled_preference"
@@ -21,7 +21,7 @@
         android:key="cgeo_preference"
         android:summary="Downloaded PQs use c:geo compatible filenames"
         android:title="c:geo compatiblity" />
-        
+
     <EditTextPreference
         android:dependency="cgeo_preference"
         android:defaultValue="pocketquery_"
@@ -44,7 +44,7 @@
         android:dependency="default_download_dir_preference"
         android:key="user_download_dir_preference"
         android:summary=""
-        android:title="Choose download directory" >
+        android:title="Choose download directory">
         <intent android:action="your.action.string" />
     </Preference>
 
