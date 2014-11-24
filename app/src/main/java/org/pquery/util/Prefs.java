@@ -10,7 +10,7 @@ import com.google.gson.Gson;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.pquery.R;
-import org.pquery.dao.PQ;
+import org.pquery.dao.DownloadablePQ;
 import org.pquery.filter.CacheTypeList;
 import org.pquery.filter.CheckBoxesFilter;
 import org.pquery.filter.ContainerTypeList;
@@ -308,7 +308,7 @@ public class Prefs {
         edit.commit();
     }
 
-    public static void savePQListState(Context cxt, PQ[] pqs) {
+    public static void savePQListState(Context cxt, DownloadablePQ[] pqs) {
         String pqSerialized = null;
 
         if (pqs != null) {
@@ -324,7 +324,7 @@ public class Prefs {
 //                        pqSerialized += SEMI_COLON;
 //
 //                } catch (IOException e) {
-//                    Logger.e("Unable to serialize PQ object",e);
+//                    Logger.e("Unable to serialize DownloadablePQ object",e);
 //                    return;
 //                }
 //            }
@@ -340,25 +340,25 @@ public class Prefs {
         return PreferenceManager.getDefaultSharedPreferences(cxt).getLong(PQ_LIST_STATE_TIMESTAMP, 0);
     }
 
-    public static PQ[] getPQListState(Context cxt) {
+    public static DownloadablePQ[] getPQListState(Context cxt) {
         String pqsSerial = PreferenceManager.getDefaultSharedPreferences(cxt).getString(PQ_LIST_STATE, null);
 
         if (pqsSerial == null)
             return null;
 
         if (pqsSerial == "")
-            return new PQ[0];
+            return new DownloadablePQ[0];
 
 
-        return new Gson().fromJson(pqsSerial, PQ[].class);
+        return new Gson().fromJson(pqsSerial, DownloadablePQ[].class);
 
 //        String pqsSerialSplit[] = pqsSerial.split(SEMI_COLON);
 //
-//        PQ[] pqs = new PQ[pqsSerialSplit.length];
+//        DownloadablePQ[] pqs = new DownloadablePQ[pqsSerialSplit.length];
 //
 //        try {
 //            for (int i=0; i<pqs.length; i++) {
-//                pqs[i] = (PQ) Base64.decodeObject(pqsSerialSplit[i]);
+//                pqs[i] = (DownloadablePQ) Base64.decodeObject(pqsSerialSplit[i]);
 //            }
 //            return pqs;
 //        } catch (IOException e) {
@@ -366,7 +366,7 @@ public class Prefs {
 //        } catch (ClassNotFoundException e) {
 //            Logger.e("Error",e);
 //        }
-        // return new PQ[0];
+        // return new DownloadablePQ[0];
     }
 
     public static void userNameChanged(Context cxt) {

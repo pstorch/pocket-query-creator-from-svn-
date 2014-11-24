@@ -14,7 +14,7 @@ import junit.framework.Assert;
 
 import org.pquery.Main;
 import org.pquery.QueryStore;
-import org.pquery.dao.PQ;
+import org.pquery.dao.DownloadablePQ;
 import org.pquery.util.Logger;
 import org.pquery.util.Prefs;
 import org.pquery.webdriver.ProgressInfo;
@@ -153,7 +153,7 @@ public class PQService extends Service {
 
         wakeLock = ((PowerManager) getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "PocketQuery");
         wakeLock.acquire();
-        notificationUtil.startInProgressNotification("Creating PQ", "", getPendingIntent());
+        notificationUtil.startInProgressNotification("Creating DownloadablePQ", "", getPendingIntent());
 
         // Kick off background thread
 
@@ -166,8 +166,8 @@ public class PQService extends Service {
                 String message = result.getMessage();
                 int notificationId = notificationUtil.showEndNotification(title, message);
 
-                Prefs.erasePQListState(PQService.this);        // erase any PQ list as we know is out-of-date now
-                sendMessageToClients(new RetrievePQListResult());        // sends an empty PQ list to GUI so will redraw empty
+                Prefs.erasePQListState(PQService.this);        // erase any DownloadablePQ list as we know is out-of-date now
+                sendMessageToClients(new RetrievePQListResult());        // sends an empty DownloadablePQ list to GUI so will redraw empty
                 sendMessageToClients(title, message, notificationId);
                 cleanUpAndStopSelf();
             }
@@ -191,7 +191,7 @@ public class PQService extends Service {
 
     private void handlePQDownload(Bundle extras) {
 
-        final PQ pq = (PQ) extras.get("pq");
+        final DownloadablePQ pq = (DownloadablePQ) extras.get("pq");
 
         Assert.assertNotNull(pq);
         Assert.assertNull(downloadPQAsync);
@@ -199,7 +199,7 @@ public class PQService extends Service {
 
         wakeLock = ((PowerManager) getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "PocketQuery");
         wakeLock.acquire();
-        notificationUtil.startInProgressNotification("Downloading PQ " + pq.name, "", getPendingIntent());
+        notificationUtil.startInProgressNotification("Downloading DownloadablePQ " + pq.name, "", getPendingIntent());
 
         downloadPQAsync = new DownloadPQAsync(getApplicationContext(), pq) {
 

@@ -814,8 +814,8 @@ containing a value of this type.
         public static final int edit_query=0x7f080027;
         public static final int fdrowimage=0x7f08004b;
         public static final int fdrowtext=0x7f08004c;
-        public static final int fragment_content=0x7f08004e;
-        public static final int generated=0x7f080054;
+        public static final int fragment_content=0x7f080051;
+        public static final int generated=0x7f08004f;
         public static final int homeAsUp=0x7f080005;
         public static final int icon=0x7f080037;
         public static final int linearLayout1=0x7f08003a;
@@ -823,16 +823,16 @@ containing a value of this type.
         public static final int linearLayout4=0x7f080040;
         public static final int linearLayout5=0x7f080043;
         public static final int listMode=0x7f080001;
-        public static final int main2_layout=0x7f08004d;
-        public static final int mapView=0x7f080050;
+        public static final int main2_layout=0x7f080050;
+        public static final int mapView=0x7f080053;
         public static final int name=0x7f080035;
         public static final int normal=0x7f080000;
-        public static final int pq_list_fragment=0x7f08004f;
+        public static final int pq_list_fragment=0x7f080052;
         public static final int progress_text=0x7f080055;
         public static final int showCustom=0x7f080007;
         public static final int showHome=0x7f080004;
         public static final int showTitle=0x7f080006;
-        public static final int size=0x7f080052;
+        public static final int size=0x7f08004d;
         public static final int tabMode=0x7f080002;
         public static final int textView2=0x7f08003e;
         public static final int textView4=0x7f080041;
@@ -844,11 +844,12 @@ containing a value of this type.
         public static final int titles=0x7f080048;
         public static final int toptext=0x7f080038;
         public static final int useLogo=0x7f080003;
-        public static final int waypoints=0x7f080053;
+        public static final int waypoints=0x7f08004e;
         public static final int webview=0x7f080057;
         public static final int webview1=0x7f080010;
+        public static final int weekdays=0x7f080058;
         public static final int wrap_content=0x7f080009;
-        public static final int zoom=0x7f080051;
+        public static final int zoom=0x7f080054;
     }
     public static final class integer {
         public static final int abs__max_action_buttons=0x7f0a0000;
@@ -887,15 +888,17 @@ containing a value of this type.
         public static final int dialog_signin=0x7f03001e;
         public static final int directory_chooser_list=0x7f03001f;
         public static final int directory_chooser_list_item=0x7f030020;
-        public static final int list_fragment=0x7f030021;
-        public static final int main2=0x7f030022;
-        public static final int map_view=0x7f030023;
-        public static final int pq_list_fragment=0x7f030024;
-        public static final int pq_list_row=0x7f030025;
+        public static final int dpq_list_row=0x7f030021;
+        public static final int list_fragment=0x7f030022;
+        public static final int main2=0x7f030023;
+        public static final int map_view=0x7f030024;
+        public static final int pq_list_fragment=0x7f030025;
         public static final int progress_box_fragment=0x7f030026;
         public static final int rob=0x7f030027;
-        public static final int sherlock_spinner_dropdown_item=0x7f030028;
-        public static final int sherlock_spinner_item=0x7f030029;
+        public static final int rpq_list_row=0x7f030028;
+        public static final int sherlock_spinner_dropdown_item=0x7f030029;
+        public static final int sherlock_spinner_item=0x7f03002a;
+        public static final int spq_list_row=0x7f03002b;
     }
     public static final class string {
         public static final int about=0x7f0b0000;

@@ -38,7 +38,7 @@ import junit.framework.Assert;
 
 import net.htmlparser.jericho.Config;
 
-import org.pquery.dao.PQ;
+import org.pquery.dao.DownloadablePQ;
 import org.pquery.fragments.MyDialogFragment;
 import org.pquery.fragments.PQListFragment;
 import org.pquery.fragments.PQListFragment.PQClickedListener;
@@ -135,9 +135,9 @@ public class Main extends SherlockFragmentActivity implements PQClickedListener,
         long time = Prefs.getPQListStateTimestamp(this);
         PQListFragment pqList = (PQListFragment) getSupportFragmentManager().findFragmentById(R.id.pq_list_fragment);
 
-        // First check if we have a PQ list stored
+        // First check if we have a DownloadablePQ list stored
         if (time != 0) {
-            // OK we know we have a PQ list
+            // OK we know we have a DownloadablePQ list
 
             // First check if it is too old
             // If so erase it and set list to be empty
@@ -366,9 +366,9 @@ public class Main extends SherlockFragmentActivity implements PQClickedListener,
     }
 
     private class PopupBar implements ActionMode.Callback {
-        private PQ pq;
+        private DownloadablePQ pq;
 
-        public PopupBar(PQ pq) {
+        public PopupBar(DownloadablePQ pq) {
             this.pq = pq;
         }
 
@@ -407,19 +407,19 @@ public class Main extends SherlockFragmentActivity implements PQClickedListener,
     ActionMode actionMode;
 
     /**
-     * The fragment listing the PQ has been clicked on
-     * We open popup bar at top to allow PQ to be downloaded
+     * The fragment listing the DownloadablePQ has been clicked on
+     * We open popup bar at top to allow DownloadablePQ to be downloaded
      */
     @Override
-    public void onPQClicked(PQ pq) {
+    public void onPQClicked(DownloadablePQ pq) {
 
         if (actionMode != null) {
-            // PQ was clicked whilst bar was open for a previous PQ click
+            // DownloadablePQ was clicked whilst bar was open for a previous DownloadablePQ click
             // Must manually close previous one
             // (Attempting to immediately open another bar on the new pq doesn't seem to work ?)
             actionMode.finish();
         } else {
-            // Open top bar to allow selection for PQ download
+            // Open top bar to allow selection for DownloadablePQ download
             if (serviceStatus == ServiceStatus.Connected)
                 actionMode = startActionMode(new PopupBar(pq));
         }

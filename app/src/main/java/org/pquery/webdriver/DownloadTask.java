@@ -70,7 +70,7 @@ public class DownloadTask extends RetriableTask<File> {
             });
 
         } catch (HTTPStatusCodeException e) {
-            // When PQ not run, we get back 302 redirect to <a href="/pocket/">
+            // When DownloadablePQ not run, we get back 302 redirect to <a href="/pocket/">
             if (e.code == HttpStatus.SC_MOVED_TEMPORARILY && e.body.indexOf("<a href=\"/pocket/\">") != -1)
                 throw new FailureException(res.getString(R.string.download_not_ready));
 

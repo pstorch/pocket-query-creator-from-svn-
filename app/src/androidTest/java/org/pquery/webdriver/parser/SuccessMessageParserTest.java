@@ -32,7 +32,7 @@ public class SuccessMessageParserTest extends AndroidTestCase {
     }
 
     /**
-     * Extract out PQ number from good English html
+     * Extract out DownloadablePQ number from good English html
      *
      * @throws FailurePermanentException
      */

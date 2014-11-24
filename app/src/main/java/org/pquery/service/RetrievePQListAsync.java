@@ -5,7 +5,8 @@ import android.os.AsyncTask;
 
 import net.htmlparser.jericho.Source;
 
-import org.pquery.dao.PQ;
+import org.pquery.dao.DownloadablePQ;
+import org.pquery.dao.RepeatablePQ;
 import org.pquery.util.Logger;
 import org.pquery.webdriver.CancelledListener;
 import org.pquery.webdriver.FailurePermanentException;
@@ -29,7 +30,7 @@ public class RetrievePQListAsync extends AsyncTask<Void, ProgressInfo, RetrieveP
         try {
             Logger.d("start");
 
-            // Unlike the PQ creation, for this operation don't bother to retry on 
+            // Unlike the DownloadablePQ creation, for this operation don't bother to retry on
             // errors
             int retryCount = 0;
 
@@ -38,8 +39,8 @@ public class RetrievePQListAsync extends AsyncTask<Void, ProgressInfo, RetrieveP
 
             PocketQueryPage queryListPage = new PocketQueryPage(parsedHtml);
 
-            PQ[] pqs = queryListPage.getReadyForDownload();
-            PQ[] repeatables = queryListPage.getRepeatables();
+            DownloadablePQ[] pqs = queryListPage.getReadyForDownload();
+            RepeatablePQ[] repeatables = queryListPage.getRepeatables();
 
             return new RetrievePQListResult(pqs, repeatables);
 

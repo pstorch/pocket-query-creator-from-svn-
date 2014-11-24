@@ -203,7 +203,7 @@ public class IOUtils {
 
     private static String decodeContentDispositionHeader(Header[] header) {
         if (header.length != 1) {
-            Logger.d("Unable to decode PQ name from Content-Disposition response http headers [length=" + header.length + "]");
+            Logger.d("Unable to decode DownloadablePQ name from Content-Disposition response http headers [length=" + header.length + "]");
             return null;
         }
 

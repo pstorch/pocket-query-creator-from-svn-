@@ -4,7 +4,7 @@
 //import org.pquery.CreateLocationActivity;
 //import org.pquery.CreateNameActivity;
 //import org.pquery.R;
-//import org.pquery.dao.PQ;
+//import org.pquery.dao.DownloadablePQ;
 //
 //import android.app.Activity;
 //import android.content.Intent;

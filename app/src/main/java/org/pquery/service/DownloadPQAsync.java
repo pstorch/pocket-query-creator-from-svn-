@@ -3,7 +3,7 @@ package org.pquery.service;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import org.pquery.dao.PQ;
+import org.pquery.dao.DownloadablePQ;
 import org.pquery.util.Prefs;
 import org.pquery.webdriver.CancelledListener;
 import org.pquery.webdriver.CreateOutputDirectoryTask;
@@ -21,9 +21,9 @@ public class DownloadPQAsync extends AsyncTask<Void, ProgressInfo, DownloadPQRes
     /**
      * Details of pocket query we are going to download
      */
-    private PQ pq;
+    private DownloadablePQ pq;
 
-    public DownloadPQAsync(Context cxt, PQ pq) {
+    public DownloadPQAsync(Context cxt, DownloadablePQ pq) {
         this.cxt = cxt;
         this.pq = pq;
     }
@@ -42,7 +42,7 @@ public class DownloadPQAsync extends AsyncTask<Void, ProgressInfo, DownloadPQRes
     @Override
     protected DownloadPQResult doInBackground(Void... params) {
         try {
-            // Unlike the PQ creation, for this operation don't bother to retry on 
+            // Unlike the DownloadablePQ creation, for this operation don't bother to retry on
             // errors
             int retryCount = 0;
 

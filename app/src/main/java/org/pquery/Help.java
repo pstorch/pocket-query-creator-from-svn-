@@ -95,8 +95,8 @@ public class Help extends SherlockActivity {
                 "<h2>FAQ</h2>" +
                 "Q. What can I do with the zip files?<br>" +
                 "<i>A. This app can't use them. You need another app to use them, like GeoBeagle</i><p>" +
-                "Q. Can I extract the PQ attachment from emails?<br>" +
-                "<i>A. Use an email client that can (K-9 Mail) or use this app to download the PQ</i><p>" +
+                "Q. Can I extract the DownloadablePQ attachment from emails?<br>" +
+                "<i>A. Use an email client that can (K-9 Mail) or use this app to download the DownloadablePQ</i><p>" +
                 "Q. Can I clear the list of downloadable PQs?<br>" +
                 "<i>A. Not using this app. You can delete them at geocaching.com</i>" +
                 "</font>";

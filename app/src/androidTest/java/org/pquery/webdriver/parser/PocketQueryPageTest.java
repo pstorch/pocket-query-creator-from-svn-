@@ -4,7 +4,8 @@ import android.test.AndroidTestCase;
 
 import net.htmlparser.jericho.Source;
 
-import org.pquery.dao.PQ;
+import org.pquery.dao.DownloadablePQ;
+import org.pquery.dao.RepeatablePQ;
 import org.pquery.util.Util;
 
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class PocketQueryPageTest extends AndroidTestCase {
     }
 
     public void testDownload() throws ParseException {
-        PQ[] download = pocketQueryPage.getReadyForDownload();
+        DownloadablePQ[] download = pocketQueryPage.getReadyForDownload();
         assertEquals(1, download.length);
 
         assertEquals("10-20-12 6.57 PM", download[0].name);
@@ -44,7 +45,7 @@ public class PocketQueryPageTest extends AndroidTestCase {
         String html = loadFromResource("pocket_query_2.htm");
         PocketQueryPage pocketQueryPage2 = new PocketQueryPage(new Source(html));
 
-        PQ[] download = pocketQueryPage2.getReadyForDownload();
+        DownloadablePQ[] download = pocketQueryPage2.getReadyForDownload();
         assertEquals(2, download.length);
 
         assertEquals("Bobby", download[0].name);
@@ -57,7 +58,7 @@ public class PocketQueryPageTest extends AndroidTestCase {
         String html = loadFromResource("pocket_query_no_downloads.htm");
         PocketQueryPage pqp = new PocketQueryPage(new Source(html));
 
-        PQ[] download = pqp.getReadyForDownload();
+        DownloadablePQ[] download = pqp.getReadyForDownload();
 
         assertEquals(0, download.length);
     }
@@ -67,15 +68,17 @@ public class PocketQueryPageTest extends AndroidTestCase {
         String html = loadFromResource("pocket_query_2.htm");
         PocketQueryPage pocketQueryPage2 = new PocketQueryPage(new Source(html));
 
-        PQ[] repeatable = pocketQueryPage2.getRepeatables();
+        RepeatablePQ[] repeatable = pocketQueryPage2.getRepeatables();
         assertEquals(2, repeatable.length);
 
         assertEquals("Bobby", repeatable[0].name);
         assertEquals("10", repeatable[0].waypoints);
+        assertEquals("Su, Mo, Tu, We, Th, Sa", repeatable[0].getCheckedWeekdays());
 
 
         assertEquals("Bobby1234", repeatable[1].name);
         assertEquals("20", repeatable[1].waypoints);
+        assertEquals("Su, Mo, Tu, Th, Sa", repeatable[1].getCheckedWeekdays());
 
     }
 

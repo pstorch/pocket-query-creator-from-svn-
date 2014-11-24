@@ -17,7 +17,7 @@ import org.apache.http.cookie.Cookie;
 import org.apache.http.message.BasicNameValuePair;
 import org.pquery.QueryStore;
 import org.pquery.R;
-import org.pquery.dao.PQ;
+import org.pquery.dao.DownloadablePQ;
 import org.pquery.filter.CacheType;
 import org.pquery.filter.CacheTypeList;
 import org.pquery.filter.CheckBoxesFilter;
@@ -167,11 +167,11 @@ public class CreatePQAsync extends AsyncTask<Void, ProgressInfo, CreatePQResult>
 
             String guid = successMessageParser.extractDownloadGuid();
 
-            PQ pq = new PQ();
+            DownloadablePQ pq = new DownloadablePQ();
             pq.url = "/pocket/downloadpq.ashx?g=" + guid;
             pq.name = queryStore.name;
 
-            // Download PQ
+            // Download DownloadablePQ
 
             CreateOutputDirectoryTask createTask = new CreateOutputDirectoryTask(retryCount, 70, 75, this, this, cxt);
             File outputDirectory = createTask.call();
@@ -1036,7 +1036,7 @@ public class CreatePQAsync extends AsyncTask<Void, ProgressInfo, CreatePQResult>
     //          cookies = client.getCookieStore().getCookies();
     //
     //      } catch (HTTPStatusCodeException e) {
-    //          // When PQ not run, we get back 302 redirect to <a href="/pocket/">
+    //          // When DownloadablePQ not run, we get back 302 redirect to <a href="/pocket/">
     //          if (e.code == HttpStatus.SC_MOVED_TEMPORARILY && e.body.indexOf("<a href=\"/pocket/\">") != -1)
     //              return new Failure(res.getString(R.string.download_not_ready));
     //          // Treat any other status code as error

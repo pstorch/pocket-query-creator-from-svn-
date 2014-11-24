@@ -19,7 +19,7 @@ public class DownloadPQResult {
 
     public String getTitle() {
         if (failure == null)
-            return "PQ Downloaded";
+            return "DownloadablePQ Downloaded";
         else
             return "Download failed";
     }
