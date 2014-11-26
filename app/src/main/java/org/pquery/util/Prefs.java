@@ -11,6 +11,7 @@ import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.pquery.R;
 import org.pquery.dao.DownloadablePQ;
+import org.pquery.dao.RepeatablePQ;
 import org.pquery.filter.CacheTypeList;
 import org.pquery.filter.CheckBoxesFilter;
 import org.pquery.filter.ContainerTypeList;
@@ -55,7 +56,8 @@ public class Prefs {
     private static final String COMMA = "\u001F";
     private static final String SEMI_COLON = "\u007F";
 
-    private static final String PQ_LIST_STATE = "pq_list_state";
+    private static final String DPQ_LIST_STATE = "dpq_list_state";
+    private static final String RPQ_LIST_STATE = "rpq_list_state";
     private static final String PQ_LIST_STATE_TIMESTAMP = "pq_list_state_time";
 
     public static String getGeocoderProvider(Context cxt) {
@@ -308,30 +310,20 @@ public class Prefs {
         edit.commit();
     }
 
-    public static void savePQListState(Context cxt, DownloadablePQ[] pqs) {
-        String pqSerialized = null;
+    public static void savePQListState(Context cxt, DownloadablePQ[] dpqs, RepeatablePQ[] rpqs) {
+        String dpqSerialized = null;
+        if (dpqs != null) {
+            dpqSerialized = new Gson().toJson(dpqs);
+        }
 
-        if (pqs != null) {
-            pqSerialized = new Gson().toJson(pqs);
-
-//            for (int i=0; i<pqs.length; i++) {
-//                try {
-//                    pqSerialized += new Gson().toJson(pqs);
-//
-//                    String bpb = Base64.encodeObject(pqs[i], Base64.GZIP);
-//                    
-//                    if (i+1 < pqs.length)
-//                        pqSerialized += SEMI_COLON;
-//
-//                } catch (IOException e) {
-//                    Logger.e("Unable to serialize DownloadablePQ object",e);
-//                    return;
-//                }
-//            }
+        String rpqSerialized = null;
+        if (rpqs != null) {
+            rpqSerialized = new Gson().toJson(rpqs);
         }
 
         Editor edit = PreferenceManager.getDefaultSharedPreferences(cxt).edit();
-        edit.putString(PQ_LIST_STATE, pqSerialized);
+        edit.putString(DPQ_LIST_STATE, dpqSerialized);
+        edit.putString(RPQ_LIST_STATE, rpqSerialized);
         edit.putLong(PQ_LIST_STATE_TIMESTAMP, new Date().getTime());
         edit.commit();
     }
@@ -340,8 +332,8 @@ public class Prefs {
         return PreferenceManager.getDefaultSharedPreferences(cxt).getLong(PQ_LIST_STATE_TIMESTAMP, 0);
     }
 
-    public static DownloadablePQ[] getPQListState(Context cxt) {
-        String pqsSerial = PreferenceManager.getDefaultSharedPreferences(cxt).getString(PQ_LIST_STATE, null);
+    public static DownloadablePQ[] getDPQListState(Context cxt) {
+        String pqsSerial = PreferenceManager.getDefaultSharedPreferences(cxt).getString(DPQ_LIST_STATE, null);
 
         if (pqsSerial == null)
             return null;
@@ -351,27 +343,25 @@ public class Prefs {
 
 
         return new Gson().fromJson(pqsSerial, DownloadablePQ[].class);
+    }
 
-//        String pqsSerialSplit[] = pqsSerial.split(SEMI_COLON);
-//
-//        DownloadablePQ[] pqs = new DownloadablePQ[pqsSerialSplit.length];
-//
-//        try {
-//            for (int i=0; i<pqs.length; i++) {
-//                pqs[i] = (DownloadablePQ) Base64.decodeObject(pqsSerialSplit[i]);
-//            }
-//            return pqs;
-//        } catch (IOException e) {
-//            Logger.e("Error",e);
-//        } catch (ClassNotFoundException e) {
-//            Logger.e("Error",e);
-//        }
-        // return new DownloadablePQ[0];
+    public static RepeatablePQ[] getRPQListState(Context cxt) {
+        String pqsSerial = PreferenceManager.getDefaultSharedPreferences(cxt).getString(RPQ_LIST_STATE, null);
+
+        if (pqsSerial == null)
+            return null;
+
+        if (pqsSerial == "")
+            return new RepeatablePQ[0];
+
+
+        return new Gson().fromJson(pqsSerial, RepeatablePQ[].class);
     }
 
     public static void userNameChanged(Context cxt) {
         Editor edit = PreferenceManager.getDefaultSharedPreferences(cxt).edit();
-        edit.remove(PQ_LIST_STATE);
+        edit.remove(DPQ_LIST_STATE);
+        edit.remove(RPQ_LIST_STATE);
         edit.putLong(PQ_LIST_STATE_TIMESTAMP, new Date().getTime());
         edit.remove(COOKIES);
         edit.commit();
@@ -379,7 +369,8 @@ public class Prefs {
 
     public static void erasePQListState(Context cxt) {
         Editor edit = PreferenceManager.getDefaultSharedPreferences(cxt).edit();
-        edit.remove(PQ_LIST_STATE);
+        edit.remove(DPQ_LIST_STATE);
+        edit.remove(RPQ_LIST_STATE);
         edit.remove(PQ_LIST_STATE_TIMESTAMP);
         edit.commit();
     }

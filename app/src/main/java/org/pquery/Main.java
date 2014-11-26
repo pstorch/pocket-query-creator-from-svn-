@@ -146,7 +146,7 @@ public class Main extends SherlockFragmentActivity implements PQClickedListener,
                 Prefs.erasePQListState(this);
                 pqList.updateList(null, null);
             } else {
-                pqList.updateList(Prefs.getPQListState(this), null);
+                pqList.updateList(Prefs.getDPQListState(this), Prefs.getRPQListState(this));
 
             }
             //this.pqListTimestamp = time;

@@ -247,7 +247,7 @@ public class PQService extends Service {
             protected void onPostExecute(RetrievePQListResult result) {
                 super.onPostExecute(result);
 
-                Prefs.savePQListState(PQService.this, result.pqs);
+                Prefs.savePQListState(PQService.this, result.pqs, result.repeatables);
                 sendMessageToClients(result);
 
                 cleanUpAndStopSelf();

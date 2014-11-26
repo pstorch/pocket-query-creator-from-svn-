@@ -54,6 +54,9 @@ public class RepeatablePQ implements Parcelable, Serializable, PQListItem {
     }
 
     public String getCheckedWeekdays() {
+        if (checkedWeekdays == null) {
+            return "-";
+        }
         return checkedWeekdays;
     }
 
@@ -67,4 +70,9 @@ public class RepeatablePQ implements Parcelable, Serializable, PQListItem {
             }
         }
     }
+
+    public Map<String,String> getWeekdays() {
+        return weekdays;
+    }
+
 }

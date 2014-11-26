@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:paddingLeft="5dp"
-                android:text="Weekdays: "
+                android:text="Scheduled on: "
                 android:textColor="#ff33b5e5"
 
                 />

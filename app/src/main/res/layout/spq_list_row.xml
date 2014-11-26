@@ -14,6 +14,8 @@
         android:text="name"
         android:textIsSelectable="false"
         android:textStyle="bold"
-        android:clickable="false"/>
+        android:clickable="false"
+        android:background="#555555"
+        />
 
 </RelativeLayout>

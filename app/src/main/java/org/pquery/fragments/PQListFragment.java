@@ -3,6 +3,7 @@ package org.pquery.fragments;
 import android.R.color;
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,9 @@ public class PQListFragment extends SherlockListFragment {
             listener.onPQClicked((DownloadablePQ)pqListItem);
         } else if (pqListItem instanceof RepeatablePQ) {
             // TODO: open popup to select weekdays
+            SchedulePQFragment scheduleFragment = new SchedulePQFragment();
+            scheduleFragment.setWeekdays(((RepeatablePQ)pqListItem).getWeekdays());
+            scheduleFragment.show(getFragmentManager(), "schedules");
         }
     }
 
@@ -94,7 +98,7 @@ public class PQListFragment extends SherlockListFragment {
                     "This app allows the easy creation of Pocket Queries<p>" +
                     "It requires a premium geocaching.com account<p>" +
                     "Press <img style='vertical-align: middle' width='20px' src='content_new.png'> to create new pocket query<br>" +
-                    "Press <img style='vertical-align: middle' width='20px' src='navigation_refresh.png'> to download existing pocket query" +
+                    "Press <img style='vertical-align: middle' width='20px' src='navigation_refresh.png'> to list existing downloadable or saved pocket queries" +
                     "<p>" +
                     "Press <img style='vertical-align: middle' width='20px' src='action_help.png'> to get more help" +
                     "</font>" +
@@ -116,7 +120,7 @@ public class PQListFragment extends SherlockListFragment {
             // else display list
 
             ((WebView) getListView().getEmptyView()).setBackgroundColor(getResources().getColor(color.black));
-            ((WebView) getListView().getEmptyView()).loadDataWithBaseURL("file:///android_asset/", "<html><body bgcolor='#000000'><table style='height:100%;width:100%;'><tr><td align='center'><font color='white'>No downloadable DownloadablePQ</font></td></tr></table></body></html>", "text/html", "utf-8", "");
+            ((WebView) getListView().getEmptyView()).loadDataWithBaseURL("file:///android_asset/", "<html><body bgcolor='#000000'><table style='height:100%;width:100%;'><tr><td align='center'><font color='white'>No downloadable or repeatable PQ</font></td></tr></table></body></html>", "text/html", "utf-8", "");
 
             List<PQListItem> listItems = new ArrayList<PQListItem>();
             if (pqs != null) {

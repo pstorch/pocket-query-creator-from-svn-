@@ -59,7 +59,7 @@ public class About extends SherlockActivity {
                 "body {font: 15px/1.3em 'Helvetica Neue','HelveticaNeue',Helvetica,sans-serif }" +
                 "</style> " +
 
-                "Written by Rob Neild<p>Don't hesitate to <a href='mailto:s1@bigbob.org.uk?subject=PocketQueryCreator'>contact me</a> with comments or errors" +
+                "Written by <a href='mailto:s1@bigbob.org.uk?subject=PocketQueryCreator'>Rob Neild</a>, extended by <a href='mailto:peter.storch@gmail.com?subject=PocketQueryCreator'>Peter Storch</a><p>Don't hesitate to contact us with comments or errors" +
 
                 "<h2>Contains</h2>" +
                 "<a href='http://www.openclipart.org/detail/89059/push-pin-icon-by-jhnri4'>Push pin icon</a> - openclipart.org<br/>" +
@@ -87,7 +87,7 @@ public class About extends SherlockActivity {
 
                 "<h2>GPLv3 License</h2>" +
 
-                "<p>This program is Copyright (C) 2011 Robert Neild<p>" +
+                "<p>This program is Copyright (C) 2011,2014 Robert Neild, Peter Storch<p>" +
 
                 "This program is free software: you can redistribute it and/or modify " +
                 "it under the terms of the GNU General Public License as published by " +
@@ -103,7 +103,7 @@ public class About extends SherlockActivity {
                 "along with this program.  If not, see " +
                 "<a href='http://www.gnu.org/licenses/'>http://www.gnu.org/licenses/</a>." +
 
-                "<p>Source code is available here <a href='http://code.google.com/p/pocket-query-creator/'>code.google.com/p/pocket-query-creator</a>" +
+                "<p>Source code is available here <a href='https://github.com/pstorch/pocket-query-creator'>https://github.com/pstorch/pocket-query-creator</a>, derived from here <a href='http://code.google.com/p/pocket-query-creator/'>code.google.com/p/pocket-query-creator</a>" +
                 "</font>";
 
         wv = (WebView) findViewById(R.id.webview1);

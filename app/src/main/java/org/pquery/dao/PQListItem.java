@@ -1,10 +1,11 @@
 package org.pquery.dao;
 
 /**
- * Created by peter on 24.11.14.
+ * Interface for Items on the List View
  */
 public interface PQListItem {
 
     public String getName();
+
 
 }

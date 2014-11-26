@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
+import java.util.Map;
 
 public class DownloadablePQ implements Parcelable, Serializable, PQListItem {
 
@@ -57,4 +58,5 @@ public class DownloadablePQ implements Parcelable, Serializable, PQListItem {
     public String getName() {
         return name;
     }
+
 }
