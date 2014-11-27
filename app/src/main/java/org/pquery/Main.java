@@ -107,10 +107,6 @@ public class Main extends SherlockFragmentActivity implements PQClickedListener,
 
         setContentView(R.layout.main2);
 
-        if (savedInstanceState != null) {
-            //this.pqListTimestamp = savedInstanceState.getLong("pqListTimestamp");
-        }
-
         String title = getIntent().getStringExtra("title");
         if (title != null)
             doDialog = true;
@@ -243,40 +239,6 @@ public class Main extends SherlockFragmentActivity implements PQClickedListener,
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-		/*
-        Dialog myDialog = new Dialog(this, R.style.CustomDialogTheme);
-		 myDialog.setContentView(R.layout.rob);
-
-
-	        final String mimeType = "text/html";
-	        final String encoding = "utf-8";
-
-		 WebView wv;
-
-	        String html = "<font color='#ffffff'>" + 
-
-			"<style type='text/css'>" +
-			"a:link {color: #0066FF; text-decoration: underline; }" +
-			"a:active {color: #0066FF; text-decoration: underline; }" +
-			"a:visited {color: #0066FF; text-decoration: underline; }" +
-			"a:hover {color: #0066FF; text-decoration: underline; }" +
-			"li {margin: 5px}" +
-			"</style> " +
-			
-			"Welcome to Pocket Query Creator<p>" +
-			"Enter your Geocaching.com in Settings" +
-			"</font>";
-
-	        wv = (WebView) myDialog.findViewById(R.id.webview);
-	        wv.setBackgroundColor(getResources().getColor(color.black));
-	        wv.loadData(html, mimeType, encoding);
-
-	        
-	        
-		myDialog.show();
-		*/
-
 
         switch (item.getItemId()) {
             case R.string.create:

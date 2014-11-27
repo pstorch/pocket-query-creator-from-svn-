@@ -63,7 +63,7 @@ public class PQListFragment extends SherlockListFragment {
         if (pqListItem instanceof DownloadablePQ) {
             listener.onPQClicked((DownloadablePQ)pqListItem);
         } else if (pqListItem instanceof RepeatablePQ) {
-            // TODO: open popup to select weekdays
+            // open popup to select weekdays
             SchedulePQFragment scheduleFragment = new SchedulePQFragment();
             scheduleFragment.setWeekdays(((RepeatablePQ)pqListItem).getWeekdays());
             scheduleFragment.show(getFragmentManager(), "schedules");

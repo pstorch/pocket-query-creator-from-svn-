@@ -1,12 +1,18 @@
 package org.pquery.fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
+import net.htmlparser.jericho.Source;
+
 import org.pquery.R;
+import org.pquery.util.Logger;
+import org.pquery.webdriver.FailurePermanentException;
+import org.pquery.webdriver.RetrievePageTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +26,11 @@ public class SchedulePQFragment extends DialogFragment {
 
     private List<String> mSelectedItems = new ArrayList<String>();
     private List<String> weekdays = new ArrayList<String>();
-    boolean[] selectedWeekdays;
+    private boolean[] selectedWeekdays;
+    private Map<String, String> weekdayLinks;
 
     public void setWeekdays(Map<String, String> weekdayLinks) {
+        this.weekdayLinks = weekdayLinks;
         this.weekdays.addAll(weekdayLinks.keySet());
         selectedWeekdays = new boolean[weekdays.size()];
         int index = 0;
@@ -54,9 +62,20 @@ public class SchedulePQFragment extends DialogFragment {
                                     if (isChecked) {
                                         // If the user checked the item, add it to the selected items
                                         mSelectedItems.add(weekdays.get(which));
+                                        String href = weekdayLinks.get(weekdays.get(which));
+
+                                        // TODO: call URL to change the schedule for the selected weekday
+/*                                        RetrievePageTask schedulePQTask = new RetrievePageTask(5, 5, 30, this, this, ctx, href);
+                                        try {
+                                            Source parsedHtml = schedulePQTask.call();
+                                        } catch (Exception e) {
+                                            Logger.e("Couldn't change Schedule", e);
+                                        }
+*/
                                     } else if (mSelectedItems.contains(weekdays.get(which))) {
                                         // Else, if the item is already in the array, remove it
                                         mSelectedItems.remove(weekdays.get(which));
+                                        // TODO: call URL to change the schedule for unselected weekday
                                     }
                                 }
                             })
@@ -66,12 +85,6 @@ public class SchedulePQFragment extends DialogFragment {
                         public void onClick(DialogInterface dialog, int id) {
                             // User clicked OK, so save the mSelectedItems results somewhere
                             // or return them to the component that opened the dialog
-                            // TODO: implement
-                        }
-                    })
-                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
                             // TODO: implement
                         }
                     });
