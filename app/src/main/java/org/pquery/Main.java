@@ -39,6 +39,7 @@ import junit.framework.Assert;
 import net.htmlparser.jericho.Config;
 
 import org.pquery.dao.DownloadablePQ;
+import org.pquery.dao.RepeatablePQ;
 import org.pquery.fragments.MyDialogFragment;
 import org.pquery.fragments.PQListFragment;
 import org.pquery.fragments.PQListFragment.PQClickedListener;
@@ -385,6 +386,18 @@ public class Main extends SherlockFragmentActivity implements PQClickedListener,
             if (serviceStatus == ServiceStatus.Connected)
                 actionMode = startActionMode(new PopupBar(pq));
         }
+    }
+
+    /**
+     * The fragment listing the RepeatablePQ has been clicked on
+     * We open popup bar at top to allow RepeatablePQ to be downloaded
+     */
+    @Override
+    public void onSchedulePQ(String url) {
+        Intent intent = new Intent(getApplicationContext(), PQService.class);
+        intent.putExtra("operation", PQService.OPERATION_SCHEDULE);
+        intent.putExtra("url", url);
+        startService(intent);
     }
 
     @Override

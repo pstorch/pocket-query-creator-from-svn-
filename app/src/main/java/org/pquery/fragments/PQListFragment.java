@@ -33,6 +33,7 @@ public class PQListFragment extends SherlockListFragment {
 
     public interface PQClickedListener {
         public void onPQClicked(DownloadablePQ pq);
+        public void onSchedulePQ(String url);
     }
 
     private PQClickedListener listener;
@@ -66,6 +67,7 @@ public class PQListFragment extends SherlockListFragment {
             // open popup to select weekdays
             SchedulePQFragment scheduleFragment = new SchedulePQFragment();
             scheduleFragment.setWeekdays(((RepeatablePQ)pqListItem).getWeekdays());
+            scheduleFragment.setPQClickedListener(listener);
             scheduleFragment.show(getFragmentManager(), "schedules");
         }
     }
