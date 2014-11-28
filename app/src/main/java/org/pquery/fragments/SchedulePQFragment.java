@@ -70,15 +70,14 @@ public class SchedulePQFragment extends DialogFragment {
                                         mSelectedItems.remove(weekdays.get(which));
                                         listener.onSchedulePQ(href);
                                     }
+                                    dialog.dismiss();
                                 }
                             })
                             // Set the action buttons
-                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
-                            // User clicked OK, so save the mSelectedItems results somewhere
-                            // or return them to the component that opened the dialog
-                            // nothing todo here
+                            // User clicked cancel, nothing to do
                         }
                     });
 

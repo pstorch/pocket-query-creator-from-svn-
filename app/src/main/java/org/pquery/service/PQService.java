@@ -30,7 +30,6 @@ public class PQService extends Service {
     public static final int OPERATION_REFRESH = 1;
     public static final int OPERATION_DOWNLOAD = 2;
     public static final int OPERATION_CREATE = 3;
-    public static final int OPERATION_SCHEDULE = 4;
 
     private NotificationUtil notificationUtil;
     private PowerManager.WakeLock wakeLock;
@@ -38,7 +37,6 @@ public class PQService extends Service {
     private RetrievePQListAsync retrievePQListAsync;
     private DownloadPQAsync downloadPQAsync;
     private CreatePQAsync createPQAsync;
-    private SchedulePQAsync schedulePQAsync;
 
     /**
      * Keeps track of all current registered clients.
@@ -62,7 +60,7 @@ public class PQService extends Service {
     }
 
     public boolean isOperationInProgress() {
-        if (retrievePQListAsync != null || downloadPQAsync != null || createPQAsync != null || schedulePQAsync != null)
+        if (retrievePQListAsync != null || downloadPQAsync != null || createPQAsync != null)
             return true;
         return false;
     }
@@ -77,9 +75,6 @@ public class PQService extends Service {
         } else if (createPQAsync != null) {
             Logger.d("Cancelling createPQAsync");
             createPQAsync.cancel(true);
-        } else if (schedulePQAsync != null) {
-            Logger.d("Cancelling schedulePQAsync");
-            schedulePQAsync.cancel(true);
         } else {
             Assert.assertTrue(false);
         }
@@ -140,9 +135,6 @@ public class PQService extends Service {
             case OPERATION_CREATE:
                 handlePQCreation(extras);
                 break;
-            case OPERATION_SCHEDULE:
-                handleSchedulePQ(extras);
-                break;
             default:
                 Assert.assertFalse(true);
         }
@@ -151,42 +143,6 @@ public class PQService extends Service {
         // If service gets killed due to low memory we don't want it auto re-launched
         // It would be too difficult to resume properly
         return START_NOT_STICKY;
-    }
-
-    private void handleSchedulePQ(Bundle extras) {
-        Assert.assertNull(schedulePQAsync);
-        final String url = (String) extras.get("url");
-
-        schedulePQAsync = new SchedulePQAsync(getApplicationContext(), url) {
-
-            @Override
-            protected void onCancelled() {
-                cleanUpAndStopSelf();
-            }
-
-            @Override
-            protected void onPostExecute(RetrievePQListResult result) {
-                super.onPostExecute(result);
-
-                // TODO: read result
-                // Prefs.savePQListState(PQService.this, result.pqs, result.repeatables);
-                sendMessageToClients(result);
-
-                cleanUpAndStopSelf();
-            }
-
-            @Override
-            protected void onProgressUpdate(ProgressInfo... values) {
-                Assert.assertNotNull(values[0]);
-
-                if (!isCancelled()) {
-                    sendMessageToClients(values[0]);
-                    Logger.d("" + values[0]);
-                }
-            }
-
-        };
-        schedulePQAsync.execute();
     }
 
     private void handlePQCreation(Bundle extras) {
@@ -280,8 +236,9 @@ public class PQService extends Service {
     private void handleRetrievePQList(final Bundle extras) {
 
         Assert.assertNull(retrievePQListAsync);
+        final String url = (String) extras.get("url");
 
-        retrievePQListAsync = new RetrievePQListAsync(getApplicationContext()) {
+        retrievePQListAsync = new RetrievePQListAsync(getApplicationContext(), url) {
 
             @Override
             protected void onCancelled() {
@@ -346,7 +303,6 @@ public class PQService extends Service {
         downloadPQAsync = null;
         retrievePQListAsync = null;
         createPQAsync = null;
-        schedulePQAsync = null;
 
         lastUpdate = null;
 

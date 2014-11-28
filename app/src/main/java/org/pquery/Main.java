@@ -351,8 +351,6 @@ public class Main extends SherlockFragmentActivity implements PQClickedListener,
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             Intent intent = new Intent(getApplicationContext(), PQService.class);
-            //            Messenger messenger = new Messenger(handler);
-            //            intent.putExtra("messenger", messenger);
             intent.putExtra("operation", PQService.OPERATION_DOWNLOAD);
             intent.putExtra("pq", (Parcelable) pq);
             startService(intent);
@@ -395,7 +393,7 @@ public class Main extends SherlockFragmentActivity implements PQClickedListener,
     @Override
     public void onSchedulePQ(String url) {
         Intent intent = new Intent(getApplicationContext(), PQService.class);
-        intent.putExtra("operation", PQService.OPERATION_SCHEDULE);
+        intent.putExtra("operation", PQService.OPERATION_REFRESH);
         intent.putExtra("url", url);
         startService(intent);
     }
@@ -404,7 +402,6 @@ public class Main extends SherlockFragmentActivity implements PQClickedListener,
     public void onServiceRetrievePQList(RetrievePQListResult pqListResult) {
         PQListFragment pqList = (PQListFragment) getSupportFragmentManager().findFragmentById(R.id.pq_list_fragment);
 
-        //pqListTimestamp = Prefs.getPQListStateTimestamp(this);
         pqList.updateList(pqListResult.pqs, pqListResult.repeatables);
 
         if (pqListResult.failure != null) {

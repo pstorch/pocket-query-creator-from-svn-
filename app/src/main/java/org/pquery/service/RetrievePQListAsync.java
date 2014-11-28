@@ -19,11 +19,14 @@ import org.pquery.webdriver.parser.PocketQueryPage;
 public class RetrievePQListAsync extends AsyncTask<Void, ProgressInfo, RetrievePQListResult> implements CancelledListener, ProgressListener {
 
     private Context cxt;
+    private String url = "/pocket/default.aspx";
 
-    public RetrievePQListAsync(Context cxt) {
+    public RetrievePQListAsync(Context cxt, String url) {
         this.cxt = cxt;
+        if (url != null) {
+            this.url = url;
+        }
     }
-
 
     @Override
     protected RetrievePQListResult doInBackground(Void... params) {
@@ -34,7 +37,7 @@ public class RetrievePQListAsync extends AsyncTask<Void, ProgressInfo, RetrieveP
             // errors
             int retryCount = 0;
 
-            RetrievePageTask task = new RetrievePageTask(retryCount, 0, 100, this, this, cxt, "/pocket/default.aspx");
+            RetrievePageTask task = new RetrievePageTask(retryCount, 0, 100, this, this, cxt, url);
             Source parsedHtml = task.call();
 
             PocketQueryPage queryListPage = new PocketQueryPage(parsedHtml);
