@@ -4,6 +4,7 @@ import android.test.AndroidTestCase;
 
 import net.htmlparser.jericho.Source;
 
+import org.pquery.R;
 import org.pquery.dao.DownloadablePQ;
 import org.pquery.dao.RepeatablePQ;
 import org.pquery.util.Util;
@@ -73,12 +74,13 @@ public class PocketQueryPageTest extends AndroidTestCase {
 
         assertEquals("Bobby", repeatable[0].name);
         assertEquals("10", repeatable[0].waypoints);
-        assertEquals("Su, Mo, Tu, We, Th, Sa", repeatable[0].getCheckedWeekdays());
+        String[] weekdayNames = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+        assertEquals("Sunday, Monday, Tuesday, Wednesday, Thursday, Saturday", repeatable[0].getCheckedWeekdaysAsText(weekdayNames));
 
 
         assertEquals("Bobby1234", repeatable[1].name);
         assertEquals("20", repeatable[1].waypoints);
-        assertEquals("Su, Mo, Tu, Th, Sa", repeatable[1].getCheckedWeekdays());
+        assertEquals("Sunday, Monday, Tuesday, Thursday, Saturday", repeatable[1].getCheckedWeekdaysAsText(weekdayNames));
 
     }
 

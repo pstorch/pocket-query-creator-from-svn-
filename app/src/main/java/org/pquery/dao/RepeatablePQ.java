@@ -1,10 +1,13 @@
 package org.pquery.dao;
 
+import android.net.UrlQuerySanitizer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RepeatablePQ implements Parcelable, Serializable, PQListItem {
@@ -12,12 +15,12 @@ public class RepeatablePQ implements Parcelable, Serializable, PQListItem {
     private static final long serialVersionUID = -6540850109992510771L;
     public String name;
     public String waypoints;
-    private String checkedWeekdays;
-    private Map<String, String> weekdays = new HashMap<String, String>();
+    private HashMap<Integer, Schedule> schedules = new HashMap<Integer, Schedule>();
 
     public RepeatablePQ(Parcel in) {
         name = in.readString();
         waypoints = in.readString();
+        schedules = in.readHashMap(ClassLoader.getSystemClassLoader());
     }
 
     public RepeatablePQ() {
@@ -32,6 +35,8 @@ public class RepeatablePQ implements Parcelable, Serializable, PQListItem {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(waypoints);
+        dest.writeMap(schedules);
+
     }
 
     /**
@@ -53,26 +58,43 @@ public class RepeatablePQ implements Parcelable, Serializable, PQListItem {
         return name;
     }
 
-    public String getCheckedWeekdays() {
-        if (checkedWeekdays == null) {
-            return "-";
+    public List<Integer> getCheckedWeekdays() {
+        List<Integer> checkedWeekdays = new ArrayList<Integer>();
+        for (Schedule schedule : schedules.values()) {
+           if (schedule.isEnabled()) {
+               checkedWeekdays.add(schedule.getDay());
+           }
         }
         return checkedWeekdays;
     }
 
-    public void addWeekday(String weekday, String href) {
-        weekdays.put(weekday, href);
-        if (href.endsWith("opt=0")) {
-            if (checkedWeekdays == null) {
-                checkedWeekdays = weekday;
+    public void addScheduleURL(String url) {
+        UrlQuerySanitizer sanitizer = new UrlQuerySanitizer();
+        sanitizer.setAllowUnregisteredParamaters(true);
+        sanitizer.parseUrl(url);
+        String day = sanitizer.getValue("d");
+        String opt = sanitizer.getValue("opt");
+        Schedule schedule = new Schedule(url, Integer.valueOf(day), "0".equals(opt));
+        schedules.put(schedule.getDay(), schedule);
+    }
+
+    public Map<Integer, Schedule> getSchedules() {
+        return schedules;
+    }
+
+    public String getCheckedWeekdaysAsText(String[] weekdayNames) {
+        String weekdaysString = null;
+        for (Integer dayNumber : getCheckedWeekdays()) {
+            String dayName = weekdayNames[dayNumber];
+            if (weekdaysString == null) {
+                weekdaysString = dayName;
             } else {
-                checkedWeekdays += ", " + weekday;
+                weekdaysString += ", " + dayName;
             }
         }
+        if (weekdaysString == null) {
+            weekdaysString = "-";
+        }
+        return weekdaysString;
     }
-
-    public Map<String,String> getWeekdays() {
-        return weekdays;
-    }
-
 }

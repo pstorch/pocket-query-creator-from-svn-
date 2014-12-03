@@ -17,6 +17,8 @@ public final class R {
         public static final int location_accuracy_values=0x7f050005;
         public static final int retry=0x7f050006;
         public static final int retry_values=0x7f050007;
+        public static final int shortWeekdayNames=0x7f050008;
+        public static final int weekdayNames=0x7f050009;
     }
     public static final class attr {
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"

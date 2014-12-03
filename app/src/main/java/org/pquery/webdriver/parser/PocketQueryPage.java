@@ -102,7 +102,7 @@ public class PocketQueryPage {
         // Detect if middle row says empty
 
 		/*
-		 * If there are no repeatable DownloadablePQ then single row (between header and footer)
+		 * If there are no repeatable PQ then single row (between header and footer)
 		 * looks like this
 		 *
 		 * <tr class="BorderBottom"><td colspan="4">
@@ -151,7 +151,7 @@ public class PocketQueryPage {
 
         // Column 5-11. extract days of week
         for (int i = 5; i < 12; i++) {
-            repeatable.addWeekday(weekdays.get(i-5), column.get(i).getFirstStartTag(HTMLElementName.A).getAttributeValue("href"));
+            repeatable.addScheduleURL(column.get(i).getFirstStartTag(HTMLElementName.A).getAttributeValue("href"));
         }
 
         return repeatable;
@@ -160,26 +160,5 @@ public class PocketQueryPage {
     private Element getRepeatableTable() {
         return parsedHtml.getElementById("pqRepeater");
     }
-
-    //        Matcher m = Pattern.compile("<table id=\"uxOfflinePQTable\"(.+?)<\table>", DOTALL+CASE_INSENSITIVE).matcher(html);
-    //        if (m.find()) {
-    //            return m.group(1);
-    //        }
-    //        throw new ParseException("Unable to find 'Ready to download' table");
-    //    }
-
-
-    /**
-     * <a href="/pocket/downloadpq.ashx?g=e6fe1c12-a8ca-4f39-ab43-d1f4c6b6978c">
-     10-20-12 6.57 PM</a>
-     </td>
-     <td class="AlignRight">
-     174.75 KB
-     </td>
-     <td class="AlignCenter">
-     159
-     </td>
-     */
-
 
 }

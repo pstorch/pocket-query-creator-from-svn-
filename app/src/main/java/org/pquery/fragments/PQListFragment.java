@@ -2,8 +2,8 @@ package org.pquery.fragments;
 
 import android.R.color;
 import android.app.Activity;
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +22,7 @@ import org.pquery.dao.RepeatablePQ;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -66,7 +67,7 @@ public class PQListFragment extends SherlockListFragment {
         } else if (pqListItem instanceof RepeatablePQ) {
             // open popup to select weekdays
             SchedulePQFragment scheduleFragment = new SchedulePQFragment();
-            scheduleFragment.setWeekdays(((RepeatablePQ)pqListItem).getWeekdays());
+            scheduleFragment.setSchedules(((RepeatablePQ) pqListItem).getSchedules());
             scheduleFragment.setPQClickedListener(listener);
             scheduleFragment.show(getFragmentManager(), "schedules");
         }
@@ -180,8 +181,10 @@ public class PQListFragment extends SherlockListFragment {
                 TextView waypoints = (TextView) row.findViewById(R.id.waypoints);
                 waypoints.setText(pq.waypoints);
 
+                String[] weekdayNames = getResources().getStringArray(R.array.weekdayNames);
+
                 TextView weekdays = (TextView) row.findViewById(R.id.weekdays);
-                weekdays.setText(pq.getCheckedWeekdays());
+                weekdays.setText(pq.getCheckedWeekdaysAsText(weekdayNames));
             } else if (pqListItem instanceof PQListItemSection) {
                 PQListItemSection pq = (PQListItemSection)pqListItem;
                 row = inflater.inflate(R.layout.spq_list_row, parent, false);
