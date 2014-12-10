@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "org.pquery"
-        minSdkVersion 7
+        minSdkVersion 9
         targetSdkVersion 19
 
         testApplicationId "org.pquery.test"
@@ -22,10 +22,11 @@ android {
 }
 
 dependencies {
+    compile ('com.google.android.gms:play-services:4.0.30')
     compile 'com.android.support:support-v4:19.0.1'
     compile 'com.google.code.gson:gson:2.2.2'
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
-    compile 'com.android.support:support-v4:19.0.1'
     compile files('libs/actionbarsherlock-plugin-maps-4.2.0.jar')
     compile files('libs/jericho-html-3.3.jar')
+
 }

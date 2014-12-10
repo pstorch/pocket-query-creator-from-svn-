@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -277,30 +278,16 @@ public class CreateFiltersActivity extends SherlockListActivity implements Locat
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-
-        // if(id==0) {
-        // 	Intent intent = new Intent();
-        //    intent.setClass(this, CreateNameActivity.class);
-        //   intent.putExtra("initialName", "bob");
-        //  startActivityForResult(intent, 0);
-        // }
-        // else
         if (id == 1) {
-            //Intent intent = new Intent();
-            //intent.setClass(this, CreateLocationActivity.class);
-            //intent.putExtra("initialLocation", initialLocation);
-            //startActivityForResult(intent, 0);
-
-
             // Try to open map at current location (if we have it)
-
             if (queryStore.lat == 0 && queryStore.lon == 0) {
-                Intent myIntent = new Intent(this, MapsActivity.class);
-
-                myIntent.putExtra("lat", gpsLocation.getLatitude());
-                myIntent.putExtra("lon", gpsLocation.getLongitude());
-
-                startActivityForResult(myIntent, 123);
+                Uri gmmIntentUri = Uri.parse("geo:" + gpsLocation.getLatitude() + "," + gpsLocation.getLongitude());
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(mapIntent);
+                    // TODO: make the mapIntent to return a chosen geopoint
+                }
             } else {
                 queryStore.lat = 0;
                 queryStore.lon = 0;
@@ -310,8 +297,9 @@ public class CreateFiltersActivity extends SherlockListActivity implements Locat
             }
 
 
-        } else
+        } else {
             createDialog(position).show();
+        }
     }
 
     private Dialog createDialog(int id) {

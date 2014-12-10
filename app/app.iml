@@ -86,6 +86,7 @@
     <orderEntry type="library" exported="" name="support-v4-19.0.1" level="project" />
     <orderEntry type="library" exported="" name="gson-2.2.2" level="project" />
     <orderEntry type="library" exported="" name="actionbarsherlock-plugin-maps-4.2.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-4.0.30" level="project" />
     <orderEntry type="library" exported="" name="actionbarsherlock-4.4.0" level="project" />
     <orderEntry type="library" exported="" name="jericho-html-3.3" level="project" />
   </component>

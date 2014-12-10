@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.LayoutInflater;
 
 import org.pquery.R;
 import org.pquery.dao.Schedule;
@@ -41,11 +42,18 @@ public class SchedulePQFragment extends DialogFragment {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             final String[] weekdays = getResources().getStringArray(R.array.weekdayNames);
 
+            // Get the layout inflater
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+
             // Set the dialog title
             builder.setTitle(R.string.change_schedule)
+                    // Inflate and set the layout for the dialog
+                    // Pass null as the parent view because its going in the dialog layout
+                    .setView(inflater.inflate(R.layout.schedule_pq, null))
                     // Specify the list array, the items to be selected by default (null for none),
                     // and the listener through which to receive callbacks when items are selected
-                    .setMultiChoiceItems(weekdays, selectedWeekdays,
+                    // TODO: initialize the weekday buttons
+/*                    .setMultiChoiceItems(weekdays, selectedWeekdays,
                             new DialogInterface.OnMultiChoiceClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which,
@@ -63,9 +71,10 @@ public class SchedulePQFragment extends DialogFragment {
                                     }
                                     dialog.dismiss();
                                 }
-                            })
-                            // Set the action buttons
-                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            })*/
+
+                        // Set the action buttons
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
                             // User clicked cancel, nothing to do
