@@ -576,11 +576,6 @@ public class CreatePQAsync extends AsyncTask<Void, ProgressInfo, CreatePQResult>
             //loginFormExtra.setValueChecked("ctl00$ContentBody$ddlAltEmails", "b@bigbob.org.uk"));
             loginFormExtra.setValueChecked("ctl00$ContentBody$ddFormats", "GPX");
 
-            if (Prefs.isZip(cxt))
-                loginFormExtra.setValueChecked("ctl00$ContentBody$cbZip", "on");
-            else
-                loginFormExtra.deleteValue("ctl00$ContentBody$cbZip");    // seem to need the delete. Is it because the default is to be on?
-
             loginFormExtra.setValueChecked("ctl00$ContentBody$cbIncludePQNameInFileName", "on");
             //loginFormExtra.checkValue("ctl00$ContentBody$btnSubmit", "Submit Information");
 

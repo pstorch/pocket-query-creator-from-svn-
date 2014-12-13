@@ -273,10 +273,6 @@ public class Prefs {
         return ret;
     }
 
-    public static boolean isZip(Context cxt) {
-        return PreferenceManager.getDefaultSharedPreferences(cxt).getBoolean("zip_preference", true);
-    }
-
     public static String getUsername(Context cxt) {
         return PreferenceManager.getDefaultSharedPreferences(cxt).getString(USERNAME, "");
     }

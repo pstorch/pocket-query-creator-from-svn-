@@ -5,8 +5,6 @@ android {
         config {
             storeFile file('/home/peter/pstorch-android.jks')
             keyAlias 'pstorchandroidkey'
-            keyPassword 'tequilla'
-            storePassword 'tequilla'
         }
     }
     compileSdkVersion 19
