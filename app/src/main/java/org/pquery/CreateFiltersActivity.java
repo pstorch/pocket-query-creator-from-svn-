@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,48 +59,6 @@ public class CreateFiltersActivity extends SherlockListActivity implements Locat
     private LocationManager locationManager;
     private Location gpsLocation;
 
-//    @Override
-//    public void onAttach(Activity activity) {
-//        super.onAttach(activity);
-//        try {
-//            listener = (CreateSettingsChangedListener) activity;
-//        } catch (ClassCastException e) {
-//            throw new ClassCastException(activity.toString() + " must implement CreateSettingsChangedListener");
-//        }
-//    }
-
-
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        listener = null;
-//    }
-
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        
-//        if (savedInstanceState!=null)
-//            queryStore = new QueryStore(savedInstanceState);
-//        else
-//            queryStore = new QueryStore();
-//        
-
-
-//        if (savedInstanceState == null) {
-//            // During initial setup, plug in the details fragment.
-//            CreateFiltersFragment f = new CreateFiltersFragment();
-//            f.setArguments(getIntent().getExtras());
-//            f.setInitialLocation(queryStore.getLocation());
-//            f.setInitialName(queryStore.name);
-//            getSupportFragmentManager().beginTransaction().add(android.R.id.content, f).commit();
-//        }
-
-//    }
-
     /**
      * Add icons to the top toolbar
      */
@@ -140,10 +99,6 @@ public class CreateFiltersActivity extends SherlockListActivity implements Locat
         super.onSaveInstanceState(outState);
         queryStore.saveToBundle(outState);
 
-        //Parcel parcel = Parcel.obtain();
-        //gpsLocation.writeToParcel(parcel, 0);
-        //parcel.setDataPosition(0);
-
         outState.putParcelable("gpsLocation", gpsLocation);
     }
 
@@ -154,6 +109,7 @@ public class CreateFiltersActivity extends SherlockListActivity implements Locat
         if (intent != null) {
             double lat = intent.getDoubleExtra("lat", 0);
             double lon = intent.getDoubleExtra("lon", 0);
+            Log.d(getLocalClassName(), "User chose lat=" + lat + ", lon=" + lon);
 
             queryStore.lat = lat;
             queryStore.lon = lon;
@@ -243,36 +199,6 @@ public class CreateFiltersActivity extends SherlockListActivity implements Locat
         // m_ProgressDialog.dismiss();
         m_adapter.notifyDataSetChanged();
 
-        //        ListView lv = (ListView) view.findViewById(android.R.id.list);
-        //        lv.setTextFilterEnabled(true);
-        //
-        //        // List listener
-        //        lv.setOnItemClickListener(new OnItemClickListener() {
-        //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //                createDialog(position).show();
-        //            }
-        //        });
-
-        // Handle next button
-        // Goes onto next stage of wizard
-
-        //            Button nextButton = (Button) view.findViewById(R.id.button_next);
-        //
-        //            nextButton.setOnClickListener(new View.OnClickListener() {
-        //                public void onClick(View view) {
-        //
-        //                    // Go onto next wizard page; pass current values in QueryStore
-        //
-        //                    Bundle bundle = new Bundle();
-        //                    queryStore.saveToBundle(bundle);
-        //
-        //                    Intent myIntent = new Intent(view.getContext(), Dialog3.class);
-        //                    myIntent.putExtra("QueryStore", bundle);
-        //                    startActivity(myIntent);
-        //                    finish();
-        //                }
-        //            });
-
         return;
     }
 
@@ -281,13 +207,8 @@ public class CreateFiltersActivity extends SherlockListActivity implements Locat
         if (id == 1) {
             // Try to open map at current location (if we have it)
             if (queryStore.lat == 0 && queryStore.lon == 0) {
-                Uri gmmIntentUri = Uri.parse("geo:" + gpsLocation.getLatitude() + "," + gpsLocation.getLongitude());
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");
-                if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(mapIntent);
-                    // TODO: make the mapIntent to return a chosen geopoint
-                }
+                Intent intent = new Intent(this, MapsActivity.class);
+                startActivityForResult(intent, 123);
             } else {
                 queryStore.lat = 0;
                 queryStore.lon = 0;
@@ -312,7 +233,6 @@ public class CreateFiltersActivity extends SherlockListActivity implements Locat
 
             final EditText nameEditText = (EditText) v.findViewById(R.id.editText_name);
             final CheckBox autoName = (CheckBox) v.findViewById(R.id.checkBox_autoname);
-            //final Button autoNameButton = (Button) v.findViewById(R.id.button_autoname);
 
             autoName.setChecked(Prefs.isAutoName(this));
             nameEditText.setText(queryStore.name);

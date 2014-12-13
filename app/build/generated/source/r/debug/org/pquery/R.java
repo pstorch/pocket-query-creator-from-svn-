@@ -1078,7 +1078,7 @@ containing a value of this type.
         public static final int dpq_list_row=0x7f030021;
         public static final int list_fragment=0x7f030022;
         public static final int main2=0x7f030023;
-        public static final int map_view=0x7f030024;
+        public static final int map_activity=0x7f030024;
         public static final int pq_list_fragment=0x7f030025;
         public static final int progress_box_fragment=0x7f030026;
         public static final int rob=0x7f030027;
