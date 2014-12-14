@@ -43,17 +43,16 @@ public class SchedulePQFragment extends DialogFragment {
             final String[] weekdays = getResources().getStringArray(R.array.weekdayNames);
 
             // Get the layout inflater
-            LayoutInflater inflater = getActivity().getLayoutInflater();
+            //LayoutInflater inflater = getActivity().getLayoutInflater();
 
             // Set the dialog title
             builder.setTitle(R.string.change_schedule)
                     // Inflate and set the layout for the dialog
                     // Pass null as the parent view because its going in the dialog layout
-                    .setView(inflater.inflate(R.layout.schedule_pq, null))
+                    //.setView(inflater.inflate(R.layout.schedule_pq, null))
                     // Specify the list array, the items to be selected by default (null for none),
                     // and the listener through which to receive callbacks when items are selected
-                    // TODO: initialize the weekday buttons
-/*                    .setMultiChoiceItems(weekdays, selectedWeekdays,
+                    .setMultiChoiceItems(weekdays, selectedWeekdays,
                             new DialogInterface.OnMultiChoiceClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which,
@@ -71,7 +70,7 @@ public class SchedulePQFragment extends DialogFragment {
                                     }
                                     dialog.dismiss();
                                 }
-                            })*/
+                            })
 
                         // Set the action buttons
                         .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
