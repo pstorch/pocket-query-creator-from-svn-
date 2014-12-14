@@ -3,14 +3,6 @@
     <string name="next">Next</string>
     <string name="cancel">Cancel</string>
 
-    <string name="dialog1">Click \'Next\' to login to Geocaching.com and start creation of a new Pocket Query\n</string>
-    <string name="dialog2">
-		Ensure that you have\n
-		&#8226; A network connection\n
-		&#8226; Valid credentials entered on settings page\n
-		&#8226; A premium Geocaching.com account\n	
-	</string>
-
     <string name="create_new_query">Create new pocket query</string>
     <string name="app_name">Pocket Query Creator</string>
     <string name="about">About</string>
@@ -58,9 +50,6 @@
     <string name="retrieving_creation_page">Retrieving Pocket Query creation page…</string>
     <string name="bad_credentials">Login to Geocaching.com failed. Verify your credentials are correct"</string>
     <string name="not_premium">You aren\'t a premium member. Goto Geocaching.com and upgrade</string>
-    <string name="local_service_started">Creation started</string>
-    <string name="local_service_stopped">local_service_stopped_REMOVE</string>
-    <string name="local_service_label">local_service_label</string>
     <string name="login_download_fail">Couldn\'t download login page</string>
     <string name="service_creation_failed">Creation failed</string>
     <string name="service_creation_success">Created ok</string>
@@ -114,7 +103,7 @@
     <string name="creation_zero_pqs">Pocket Query created but didn\'t find any matching geocaches</string>
     <string name="created_ok">Pocket Query created and currently matches</string>
     <string name="not_geocaching_page">Retrieved web page doesn\'t mention geocaching. A wifi login page?</string>
-    <string name="download_not_ready">PocketQuery hasn\'t been run yet</string>
+    <string name="download_not_ready">Pocket Query hasn\'t been run yet</string>
     <string name="auto_name">During creation, try to set from location name</string>
     <string name="directory_picker_title">Choose directory</string>
     <string-array name="geocoder_provider">

@@ -42,14 +42,8 @@ public class SchedulePQFragment extends DialogFragment {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             final String[] weekdays = getResources().getStringArray(R.array.weekdayNames);
 
-            // Get the layout inflater
-            //LayoutInflater inflater = getActivity().getLayoutInflater();
-
             // Set the dialog title
             builder.setTitle(R.string.change_schedule)
-                    // Inflate and set the layout for the dialog
-                    // Pass null as the parent view because its going in the dialog layout
-                    //.setView(inflater.inflate(R.layout.schedule_pq, null))
                     // Specify the list array, the items to be selected by default (null for none),
                     // and the listener through which to receive callbacks when items are selected
                     .setMultiChoiceItems(weekdays, selectedWeekdays,
@@ -62,12 +56,11 @@ public class SchedulePQFragment extends DialogFragment {
                                     if (isChecked) {
                                         // If the user checked the item, add it to the selected items
                                         mSelectedItems.add(weekday);
-                                        listener.onSchedulePQ(schedule.getHref());
                                     } else if (mSelectedItems.contains(weekday)) {
                                         // Else, if the item is already in the array, remove it
                                         mSelectedItems.remove(weekday);
-                                        listener.onSchedulePQ(schedule.getHref());
                                     }
+                                    listener.onSchedulePQ(schedule.getHref());
                                     dialog.dismiss();
                                 }
                             })
