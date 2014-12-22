@@ -8,10 +8,10 @@
         android:minSdkVersion="9"
         android:targetSdkVersion="19" />
 
-    <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -31,33 +31,20 @@
         <uses-library android:name="com.google.android.maps" />
 
         <activity
-            android:name="PocketQuery"
-            android:label="Pocket Query Creator">
-        </activity>
-        <activity
             android:name="PreferencesFromXml"
-            android:label="@string/settings"></activity>
+            android:label="@string/settings"/>
         <activity
             android:name="MapsActivity"
-            android:label="Long press to select point then press back"></activity>
+            android:label="Long press to select point then press back"/>
         <activity
             android:name="Help"
-            android:label="@string/help"></activity>
+            android:label="@string/help"/>
         <activity
             android:name="About"
-            android:label="@string/about"></activity>
+            android:label="@string/about"/>
         <activity
             android:name=".CreateFiltersActivity"
-            android:label="Creation Options"></activity>
-        <activity
-            android:name=".CreateActivity"
-            android:label="Creation Options"></activity>
-        <activity
-            android:name=".CreateLocationActivity"
-            android:label="Location"></activity>
-        <activity
-            android:name=".CreateNameActivity"
-            android:label="Name"></activity>
+            android:label="Creation Options"/>
 
         <activity
             android:name="net.bgreco.DirectoryPicker"
@@ -90,7 +77,7 @@
 
         <service
             android:name="org.pquery.service.PQService"
-            android:label="PQService"></service>
+            android:label="PQService"/>
 
 
     </application>

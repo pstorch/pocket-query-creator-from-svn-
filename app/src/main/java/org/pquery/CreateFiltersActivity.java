@@ -151,16 +151,16 @@ public class CreateFiltersActivity extends SherlockListActivity implements Locat
 
         _filterList = new ArrayList<CreationOption>();
 
-        CreationOption filterOption = new CreationOption("Name", R.drawable.abc, getResources());
+        CreationOption filterOption = new CreationOption(getResources().getString(R.string.filter_name), R.drawable.abc, getResources());
         filterOption.setCurrentValue(queryStore.name);
         _filterList.add(filterOption);
 
-        filterOption = new CreationOption("Origin", getResources());
+        filterOption = new CreationOption(getResources().getString(R.string.filter_origin), getResources());
         filterOption.setCurrentValue(queryStore.lat, queryStore.lon, gpsLocation);
         _filterList.add(filterOption);
 
-        filterOption = new CreationOption("Radius", R.drawable.target, getResources());
-        filterOption.setCurrentValue(Prefs.getDefaultRadius(this) + (Prefs.isMetric(this) ? " km" : " miles"));
+        filterOption = new CreationOption(getResources().getString(R.string.filter_radius), R.drawable.target, getResources());
+        filterOption.setCurrentValue(Prefs.getDefaultRadius(this) + (Prefs.isMetric(this) ? getResources().getString(R.string.filter_radius_km) : getResources().getString(R.string.filter_radius_miles)));
         ;
         _filterList.add(filterOption);
 
@@ -239,9 +239,9 @@ public class CreateFiltersActivity extends SherlockListActivity implements Locat
             autoName.setChecked(Prefs.isAutoName(this));
 
             return new AlertDialog.Builder(this)
-                    .setTitle("Pocket Query Name")
+                    .setTitle(R.string.pocket_query_name)
                     .setView(v)
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             if (nameEditText.length() > 0) {
                                 queryStore.name = nameEditText.getText().toString();
@@ -252,7 +252,7 @@ public class CreateFiltersActivity extends SherlockListActivity implements Locat
 
                             m_adapter.notifyDataSetChanged();
                         }
-                    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
 
                         }
@@ -267,14 +267,14 @@ public class CreateFiltersActivity extends SherlockListActivity implements Locat
             input.setText(Prefs.getDefaultRadius(this));
 
             return new AlertDialog.Builder(this)
-                    .setTitle("Radius")
+                    .setTitle(R.string.filter_radius)
                     .setView(input)
                     .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             try {
                                 int r = Integer.parseInt(input.getText().toString());
                                 Prefs.saveDefaultRadius(CreateFiltersActivity.this, r + "");
-                                _filterList.get(2).setCurrentValue(r + (Prefs.isMetric(CreateFiltersActivity.this) ? " km" : " miles"));
+                                _filterList.get(2).setCurrentValue(r + (Prefs.isMetric(CreateFiltersActivity.this) ? getResources().getString(R.string.filter_radius_km) : getResources().getString(R.string.filter_radius_miles)));
                                 m_adapter.notifyDataSetChanged();
                             } catch (NumberFormatException e) {
                             }
@@ -590,26 +590,26 @@ public class CreateFiltersActivity extends SherlockListActivity implements Locat
         public void setCurrentValue(double mapPositionLat, double mapPositionLon, Location gpsLocation) {
             if (mapPositionLat == 0 && mapPositionLon == 0) {
 
-                this.currentValue = "GPS";
+                this.currentValue = getResources().getString(R.string.gps);
 
                 this.iconRes = R.drawable.ivak_satellite;
                 int accuracy = (int) gpsLocation.getAccuracy();
 
                 if (accuracy == 0) {
                     this.color = 0xffFF4500;        // orange. no fix yet at all
-                    this.currentValue += "  (no fix yet)";
+                    this.currentValue += getResources().getText(R.string.no_fix_yet);
                 } else if (accuracy < 80) {
                     this.color = Color.GREEN;
-                    this.currentValue += "  (accuracy " + accuracy + "m)";
+                    this.currentValue += String.format(getResources().getString(R.string.accuracy), accuracy);
                 } else {
                     this.color = Color.YELLOW;
-                    this.currentValue += "  (accuracy " + accuracy + "m)";
+                    this.currentValue += String.format(getResources().getString(R.string.accuracy), accuracy);
                 }
 
 
             } else {
                 this.color = 0xffaaaaaa;
-                this.currentValue = "Map point";
+                this.currentValue = getResources().getString(R.string.map_point);
                 this.iconRes = R.drawable.treasure_map;
             }
         }

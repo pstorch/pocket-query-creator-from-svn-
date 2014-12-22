@@ -143,6 +143,19 @@
     <string name="friday">Friday</string>
     <string name="saturday">Saturday</string>
 
+    <string name="working">Working</string>
+    <string name="filter_name">Name</string>
+    <string name="filter_origin">Origin</string>
+    <string name="filter_radius">Radius</string>
+    <string name="filter_radius_km">" km"</string>
+    <string name="filter_radius_miles">" miles"</string>
+    <string name="pocket_query_name">Pocket Query Name</string>
+    <string name="no_fix_yet">" (no fix yet)"</string>
+    <string name="map_point">Map point</string>
+    <string name="accuracy">" (accuracy %1$dm)"</string>
+    <string name="gps">GPS</string>
+    <string name="waiting_for_pq_to_run">Waiting 30 seconds to allow Pocket Query to run</string>
+
     <string-array name="weekdayNames">
         <item>@string/sunday</item>
         <item>@string/monday</item>

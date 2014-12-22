@@ -89,32 +89,13 @@ public class AutoSetNameDialog extends SherlockDialogFragment implements Locatio
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         ProgressDialog progressDialog = new ProgressDialog(getActivity());
 
-        progressDialog.setMessage("Working");
+        progressDialog.setMessage(getResources().getText(R.string.working));
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(true);
 
         return progressDialog;
     }
 
-    //    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//            Bundle savedInstanceState) {
-//        super.onCreateView(inflater, container, savedInstanceState);
-//        
-//        //LayoutParams p = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
-//        //container.setLayoutParams(p);
-//        
-//        View v = inflater.inflate(R.layout.autosetnamedialog, container, false);
-//        
-////        ProgressBar spinner = new ProgressBar(getActivity());
-////        
-////        LinearLayout ll = new LinearLayout(getActivity());
-////        ll.setBackgroundColor(0xAA000000);
-////        ll.addView(spinner);
-//        
-//        return v;
-//    }
-//    
     @Override
     public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
@@ -202,48 +183,3 @@ public class AutoSetNameDialog extends SherlockDialogFragment implements Locatio
     }
 
 }
-/*
- * public class AutoSetNameDialog extends ProgressDialog {
- * 
- * private AutoSetNameDialogListener autoSetNameDialogListener; private
- * LookupLocationTask lookupLocationTask; private Location location;
- * 
- * public interface AutoSetNameDialogListener { public void
- * onAutoSetSuccess(String locality); }
- * 
- * public AutoSetNameDialog(Context context, double lat, double lon,
- * AutoSetNameDialogListener listener) { super(context); setListener(listener);
- * location = new Location(lat, lon); }
- * 
- * public AutoSetNameDialog(Context context, int theme, double lat, double lon,
- * AutoSetNameDialogListener listener) { super(context, theme);
- * setListener(listener); location = new Location(lat, lon); }
- * 
- * private void setListener(AutoSetNameDialogListener listener) { if
- * (listener==null) throw new IllegalArgumentException("listener");
- * this.autoSetNameDialogListener = listener; }
- * 
- * @Override protected void onCreate(Bundle savedInstanceState) {
- * super.onCreate(savedInstanceState);
- * 
- * setTitle("Indeterminate"); setMessage("Please wait while loading...");
- * setIndeterminate(true); setCancelable(true);
- * 
- * lookupLocationTask = new LookupLocationTask(); lookupLocationTask.execute(new
- * Location[] { location }); }
- * 
- * 
- * 
- * private class Location { public double lat; public double lon;
- * Location(double lat, double lon) { this.lat = lat; this.lon = lon; } }
- * 
- * private class LookupLocationTask extends AsyncTask<Location, Void, String> {
- * 
- * @Override protected void onPostExecute(String result) {
- * autoSetNameDialogListener.onAutoSetSuccess(result);
- * AutoSetNameDialog.this.dismiss(); }
- * 
- * @Override protected String doInBackground(Location... params) { String
- * locality = GPS.getLocality(getContext(), params[0].lat, params[1].lon);
- * return locality; } } }
- */

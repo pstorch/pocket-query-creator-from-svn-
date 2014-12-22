@@ -34,6 +34,7 @@
         <item>Fr</item>
         <item>Sa</item>
     </string-array>
+
     <string name="any">Jedes</string>
     <string name="auto_name">Versuche den Standortnamen zu setzen</string>
     <string name="bad_credentials">Login in Geocaching.com fehlgeschlagen. Prüfe Deine Zugangsdaten in den Einstellungen.</string>
@@ -98,6 +99,19 @@
     <string name="title_password_preference">Passwort</string>
     <string name="title_username_preference">Benutzername</string>
     <string name="view_bad_response">Logdatei ansehen</string>
+
+    <string name="working">Arbeite</string>
+    <string name="filter_name">Name</string>
+    <string name="filter_origin">Koordinaten-Herkunft</string>
+    <string name="filter_radius">Radius</string>
+    <string name="filter_radius_km">" km"</string>
+    <string name="filter_radius_miles">" Meilen"</string>
+    <string name="pocket_query_name">Pocket Query Name</string>
+    <string name="no_fix_yet">" (noch kein Fix)"</string>
+    <string name="map_point">Punkt von der Karte</string>
+    <string name="accuracy">" (Genauigkeit %1$dm)"</string>
+    <string name="gps">GPS</string>
+    <string name="waiting_for_pq_to_run">Warte 30 Sekunden, bis die Pocket Query ausgeführt wurde</string>
 
 
 </resources>

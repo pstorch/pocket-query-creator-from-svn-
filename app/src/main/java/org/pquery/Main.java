@@ -39,7 +39,6 @@ import junit.framework.Assert;
 import net.htmlparser.jericho.Config;
 
 import org.pquery.dao.DownloadablePQ;
-import org.pquery.dao.RepeatablePQ;
 import org.pquery.fragments.MyDialogFragment;
 import org.pquery.fragments.PQListFragment;
 import org.pquery.fragments.PQListFragment.PQClickedListener;

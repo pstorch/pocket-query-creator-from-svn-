@@ -162,7 +162,7 @@ public class CreatePQAsync extends AsyncTask<Void, ProgressInfo, CreatePQResult>
 
             checkCancelled();
             publishProgress(new ProgressInfo(60, successMessageParser.toString(res)
-                    + "<br><br>Waiting 30 seconds to allow Pocket Query to run"));
+                    + "<br><br>" + res.getString(R.string.waiting_for_pq_to_run)));
             Thread.sleep(30000);
 
             String guid = successMessageParser.extractDownloadGuid();
@@ -227,152 +227,12 @@ public class CreatePQAsync extends AsyncTask<Void, ProgressInfo, CreatePQResult>
         }
     }
 
-    //  public Failure doLogin() throws FailureDontRetry {
-    //
-    //      Logger.d("enter");
-    //
-    //      // Get preferences
-    //
-    //      String username = Prefs.getUsername(cxt);
-    //      String password = Prefs.getPassword(cxt);
-    //
-    //      String html = "";
-    //      DefaultHttpClient client = null;
-    //
-    //      try {
-    //          publishProgress(new ProgressInfo(5, res.getString(R.string.login_detect)));
-    //
-    //          client = new DefaultHttpClient();
-    //
-    //          for (Cookie c : cookies) {
-    //              Logger.d("restored cookie " + c);
-    //              client.getCookieStore().addCookie(c);
-    //          }
-    //
-    //          // Get the pocket query creation page
-    //          // and read the response. Need to detect if logged in or no
-    //
-    //          try {
-    //              html = IOUtils.httpGet(client, "pocket/gcquery.aspx", new Listener() {
-    //
-    //                  @Override
-    //                  public void update(int bytesReadSoFar, int expectedLength) {
-    //                      publishProgress(new ProgressInfo((int) 5 + (bytesReadSoFar * 12 / expectedLength), res
-    //                              .getString(R.string.login_detect))); // 5-17%
-    //                  }
-    //              });
-    //
-    //              // Retrieve and store cookies in reply
-    //
-    //              cookies = client.getCookieStore().getCookies();
-    //
-    //          } catch (IOException e) {
-    //              Logger.e("Exception downloading login page", e);
-    //              return new Failure(res.getString(R.string.login_download_fail), e);
-    //          }
-    //
-    //          // Parse the response
-    //
-    //          Parser parse = new Parser(html);
-    //          queryStore.viewStateMap = parse.extractViewState();
-    //
-    //          // Check for a completely wrong page returned that doesn't mention
-    //          // geocaching
-    //          // Likely to be a wifi login page
-    //          if (!parse.detectGeocachingCom()) {
-    //              return new Failure(res.getString(R.string.login_page_wrong));
-    //          }
-    //
-    //          // Check the response. Detecting login and premium state
-    //          if (parse.isLoggedIn()) {
-    //              if (!parse.isPremium())
-    //                  throw new FailureDontRetry("You aren't a premium member. Goto Geocaching.com and upgrade");
-    //
-    //              Logger.d("Detected already logged in");
-    //              return null; // All ok. Cookies must be ok and already logged in
-    //          }
-    //
-    //          publishProgress(new ProgressInfo(18, res.getString(R.string.login_geocaching_com)));
-    //
-    //          // Extract an extra field that the un-logged in pocket query page
-    //          // seems to have
-    //
-    //          String PREVIOUS_PAGE = "name=\"__PREVIOUSPAGE\" id=\"__PREVIOUSPAGE\" value=\"";
-    //
-    //          int start = html.indexOf(PREVIOUS_PAGE);
-    //          int end = html.indexOf("\"", start + PREVIOUS_PAGE.length());
-    //
-    //          queryStore.viewStateMap.put("__PREVIOUSPAGE", html.substring(start + PREVIOUS_PAGE.length(), end));
-    //
-    //          // We need to login
-    //          // Create the POST
-    //
-    //          List<BasicNameValuePair> paramList = new ArrayList<BasicNameValuePair>();
-    //
-    //          paramList.add(new BasicNameValuePair("__EVENTTARGET", ""));
-    //          paramList.add(new BasicNameValuePair("__EVENTARGUMENT", ""));
-    //          paramList.add(new BasicNameValuePair("__VIEWSTATEFIELDCOUNT", "" + queryStore.viewStateMap.size()));
-    //
-    //          for (Map.Entry<String, String> entry : queryStore.viewStateMap.entrySet()) {
-    //              paramList.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
-    //          }
-    //
-    //          // Fill in the form values
-    //
-    //          paramList.add(new BasicNameValuePair("ctl00$tbUsername", username));
-    //          paramList.add(new BasicNameValuePair("ctl00$tbPassword", password));
-    //          paramList.add(new BasicNameValuePair("ctl00$cbRememberMe", "on"));
-    //          paramList.add(new BasicNameValuePair("ctl00$btnSignIn", "Sign In"));
-    //
-    //          try {
-    //              html = IOUtils.httpPost(client, paramList, "login/default.aspx?redir=%2fpocket%2fgcquery.aspx%3f",
-    //                      true, new Listener() {
-    //
-    //                          @Override
-    //                          public void update(int bytesReadSoFar, int expectedLength) {
-    //                              publishProgress(new ProgressInfo((int) (18 + (bytesReadSoFar * 12 / expectedLength)),
-    //                                      res.getString(R.string.login_geocaching_com))); // 18-30%
-    //                          }
-    //                      });
-    //
-    //              // Retrieve and store cookies in reply
-    //              cookies = client.getCookieStore().getCookies();
-    //
-    //          } catch (IOException e) {
-    //              return new Failure("Unable to submit login form", e);
-    //          }
-    //
-    //          // Parse response to check we are now logged in
-    //          parse = new Parser(html);
-    //
-    //          if (parse.atLoginPage() || !parse.isLoggedIn()) {
-    //              throw new FailureDontRetry(res.getString(R.string.bad_credentials));
-    //          }
-    //
-    //          if (!parse.isPremium())
-    //              throw new FailureDontRetry(res.getString(R.string.not_premium));
-    //
-    //          // Store page state for later use when we create a pocket query
-    //
-    //          queryStore.viewStateMap = parse.extractViewState();
-    //          return null;
-    //
-    //      } catch (ParseException e) {
-    //          return new Failure(res.getString(R.string.error_parsing), e);
-    //      } finally {
-    //          // Shutdown
-    //          if (client != null && client.getConnectionManager() != null)
-    //              client.getConnectionManager().shutdown();
-    //      }
-    //  }
-
     /**
      * Create pocket query
      * <p/>
      * Returns null on success else some error text
      *
      * @throws FailurePermanentException
-     * @throws FailureDontRetry
      */
     public List<BasicNameValuePair> fillInCreateForm(GeocachingPage page) throws FailurePermanentException {
 
