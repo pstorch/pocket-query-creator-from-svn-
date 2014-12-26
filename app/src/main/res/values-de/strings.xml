@@ -15,16 +15,6 @@
     <string name="friday">Freitag</string>
     <string name="saturday">Samstag</string>
 
-    <string-array name="weekdayNames">
-        <item>@string/sunday</item>
-        <item>@string/monday</item>
-        <item>@string/tuesday</item>
-        <item>@string/wednesday</item>
-        <item>@string/thursday</item>
-        <item>@string/friday</item>
-        <item>@string/saturday</item>
-    </string-array>
-
     <string-array name="shortWeekdayNames">
         <item>So</item>
         <item>Mo</item>
@@ -112,6 +102,15 @@
     <string name="accuracy">" (Genauigkeit %1$dm)"</string>
     <string name="gps">GPS</string>
     <string name="waiting_for_pq_to_run">Warte 30 Sekunden, bis die Pocket Query ausgeführt wurde</string>
+    <string name="enter_gc_credentials">Trage zuerst Deine geocaching.com Premium Account Zugangsdaten ein</string>
+    <string name="unable_to_create_maps">Konnte keine Karte erstellen</string>
+    <string name="downloadable_pqs">PQs fertig zum Herunterladen</string>
+    <string name="repeatable_pqs">Gespeicherte PQs</string>
+    <string name="no_pqs_found">Keine Pocket Queries gefunden</string>
+    <string name="size_label">"Größe: "</string>
+    <string name="waypoints_label">"Wegpunkte: "</string>
+    <string name="generated_label">"Erzeugt am: "</string>
+    <string name="scheduled_on">"Geplant am: "</string>
 
 
 </resources>

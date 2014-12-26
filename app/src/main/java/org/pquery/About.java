@@ -103,7 +103,7 @@ public class About extends SherlockActivity {
                 "along with this program.  If not, see " +
                 "<a href='http://www.gnu.org/licenses/'>http://www.gnu.org/licenses/</a>." +
 
-                "<p>Source code is available here <a href='https://github.com/pstorch/pocket-query-creator'>https://github.com/pstorch/pocket-query-creator</a>, derived from here <a href='http://code.google.com/p/pocket-query-creator/'>code.google.com/p/pocket-query-creator</a>" +
+                "<p>Source code is available here <a href='http://code.google.com/p/pocket-query-creator/'>code.google.com/p/pocket-query-creator</a>" +
                 "</font>";
 
         wv = (WebView) findViewById(R.id.webview1);

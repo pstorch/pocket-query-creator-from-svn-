@@ -156,6 +156,8 @@
     <string name="gps">GPS</string>
     <string name="waiting_for_pq_to_run">Waiting 30 seconds to allow Pocket Query to run</string>
 
+    <string name="enter_gc_credentials">First enter your premium geocaching.com account credentials on the settings page</string>
+
     <string-array name="weekdayNames">
         <item>@string/sunday</item>
         <item>@string/monday</item>
@@ -175,5 +177,13 @@
         <item>Fr</item>
         <item>Sa</item>
     </string-array>
+    <string name="unable_to_create_maps">Sorry! unable to create maps</string>
+    <string name="downloadable_pqs">Downloadable PQs</string>
+    <string name="repeatable_pqs">Repeatable PQs</string>
+    <string name="no_pqs_found">No Pocket Queries found</string>
+    <string name="size_label">"Size: "</string>
+    <string name="waypoints_label">"Waypoints: "</string>
+    <string name="generated_label">"Generated: "</string>
+    <string name="scheduled_on">"Scheduled on: "</string>
 
 </resources>

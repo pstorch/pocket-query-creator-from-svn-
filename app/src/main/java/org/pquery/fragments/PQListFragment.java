@@ -123,16 +123,16 @@ public class PQListFragment extends SherlockListFragment {
             // else display list
 
             ((WebView) getListView().getEmptyView()).setBackgroundColor(getResources().getColor(color.black));
-            ((WebView) getListView().getEmptyView()).loadDataWithBaseURL("file:///android_asset/", "<html><body bgcolor='#000000'><table style='height:100%;width:100%;'><tr><td align='center'><font color='white'>No downloadable or repeatable PQ</font></td></tr></table></body></html>", "text/html", "utf-8", "");
+            ((WebView) getListView().getEmptyView()).loadDataWithBaseURL("file:///android_asset/", "<html><body bgcolor='#000000'><table style='height:100%;width:100%;'><tr><td align='center'><font color='white'>" + getResources().getString(R.string.no_pqs_found) + "</font></td></tr></table></body></html>", "text/html", "utf-8", "");
 
             List<PQListItem> listItems = new ArrayList<PQListItem>();
             if (pqs != null) {
-                listItems.add(new PQListItemSection("Downloadable PQs"));
+                listItems.add(new PQListItemSection(getResources().getString(R.string.downloadable_pqs)));
                 listItems.addAll(Arrays.asList(pqs));
             }
 
             if (repeatables != null) {
-                listItems.add(new PQListItemSection("Repeatable PQs"));
+                listItems.add(new PQListItemSection(getResources().getString(R.string.repeatable_pqs)));
                 listItems.addAll(Arrays.asList(repeatables));
             }
 

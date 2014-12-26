@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:paddingLeft="5dp"
-                android:text="Waypoints: "
+                android:text="@string/waypoints_label"
                 android:textColor="#ff33b5e5" />
 
             <TextView
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:paddingLeft="5dp"
-                android:text="Scheduled on: "
+                android:text="@string/scheduled_on"
                 android:textColor="#ff33b5e5"
 
                 />

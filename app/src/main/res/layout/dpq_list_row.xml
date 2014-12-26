@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:paddingLeft="5dp"
-                android:text="Size: "
+                android:text="@string/size_label"
                 android:textColor="#ff33b5e5"
 
                 />
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:paddingLeft="5dp"
-                android:text="Waypoints: "
+                android:text="@string/waypoints_label"
                 android:textColor="#ff33b5e5" />
 
             <TextView
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:paddingLeft="5dp"
-                android:text="Generated: "
+                android:text="@string/generated_label"
                 android:textColor="#ff33b5e5" />
 
             <TextView

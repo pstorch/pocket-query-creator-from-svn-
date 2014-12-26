@@ -83,7 +83,7 @@ public class MapsActivity extends SherlockFragmentActivity {
             // check if map is created successfully or not
             if (googleMap == null) {
                 Toast.makeText(getApplicationContext(),
-                        "Sorry! unable to create maps", Toast.LENGTH_SHORT)
+                        R.string.unable_to_create_maps, Toast.LENGTH_SHORT)
                         .show();
             }
         }

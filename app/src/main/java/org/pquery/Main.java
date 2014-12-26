@@ -243,7 +243,7 @@ public class Main extends SherlockFragmentActivity implements PQClickedListener,
         switch (item.getItemId()) {
             case R.string.create:
                 if (Prefs.getUsername(this).length() == 0 || Prefs.getPassword(this).length() == 0) {
-                    Toast.makeText(this, "First enter your premium geocaching.com account credentials on the settings page", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.enter_gc_credentials, Toast.LENGTH_LONG).show();
                     return true;
                 }
                 if (serviceStatus != ServiceStatus.Connected)
@@ -253,7 +253,7 @@ public class Main extends SherlockFragmentActivity implements PQClickedListener,
                 break;
             case R.string.get_pq_list:
                 if (Prefs.getUsername(this).length() == 0 || Prefs.getPassword(this).length() == 0) {
-                    Toast.makeText(this, "First enter your premium geocaching.com account credentials on the settings page", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.enter_gc_credentials, Toast.LENGTH_LONG).show();
                     return true;
                 }
                 if (serviceStatus != ServiceStatus.Connected)
