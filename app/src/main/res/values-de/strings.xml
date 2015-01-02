@@ -112,5 +112,6 @@
     <string name="generated_label">"Erzeugt am: "</string>
     <string name="scheduled_on">"Geplant am: "</string>
 
+    <string name="help_url">file:///android_asset/help_de.html</string>
 
 </resources>
