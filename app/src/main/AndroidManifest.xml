@@ -35,7 +35,7 @@
             android:label="@string/settings"/>
         <activity
             android:name="MapsActivity"
-            android:label="Long press to select point then press back"/>
+            android:label="@string/maps_activity_title"/>
         <activity
             android:name="Help"
             android:label="@string/help"/>
